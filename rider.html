@@ -1,0 +1,1267 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Course plan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#ECE7DB; --paper:#FBFAF6; --paper-2:#F3F0E8; --line:#D8D2C4; --line-2:#C4BDAD;
+  --ink:#1E2A22; --ink-2:#4E5A52; --ink-3:#7D877F;
+  --accent:#2E5A43; --accent-ink:#FFFFFF; --accent-soft:#DCE8DF;
+  --bay:#8B5A2B; --rail:#B5422F; --rail-soft:#F3DAD4; --warn:#9A6B10; --warn-soft:#F5E7C6; --ok:#2E5A43;
+  --footing:#E4DCCB; --footing-grid:#D3CAB6; --rail-line:#6E6252;
+  --route:#2E5A43; --route-jo:#B5422F;
+  --shadow:0 1px 2px rgba(30,42,34,.08),0 6px 20px rgba(30,42,34,.08);
+  --radius:6px;
+  --font-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-display:"Bitter",Georgia,"Times New Roman",serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#141916; --paper:#1C2320; --paper-2:#232B27; --line:#344039; --line-2:#45534B;
+    --ink:#E7E5DC; --ink-2:#B6B9B0; --ink-3:#858C85;
+    --accent:#7DB796; --accent-ink:#10201A; --accent-soft:#253D31;
+    --bay:#C58C55; --rail:#E07A66; --rail-soft:#3E2622; --warn:#D9A93F; --warn-soft:#3A3118; --ok:#7DB796;
+    --footing:#2A312C; --footing-grid:#36403A; --rail-line:#A49A88;
+    --route:#9DD1B4; --route-jo:#E07A66;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141916; --paper:#1C2320; --paper-2:#232B27; --line:#344039; --line-2:#45534B;
+  --ink:#E7E5DC; --ink-2:#B6B9B0; --ink-3:#858C85;
+  --accent:#7DB796; --accent-ink:#10201A; --accent-soft:#253D31;
+  --bay:#C58C55; --rail:#E07A66; --rail-soft:#3E2622; --warn:#D9A93F; --warn-soft:#3A3118; --ok:#7DB796;
+  --footing:#2A312C; --footing-grid:#36403A; --rail-line:#A49A88;
+  --route:#9DD1B4; --route-jo:#E07A66;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font-ui);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--font-display);margin:0;text-wrap:balance;font-weight:600}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- App shell ---------- */
+#app{display:grid;grid-template-rows:auto 1fr;height:100vh;min-height:0}
+.topbar{display:flex;align-items:center;gap:16px;padding:10px 18px;background:var(--paper);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:30px;height:30px;color:var(--accent)}
+.brand-logo{height:38px;max-width:120px;object-fit:contain;border-radius:4px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .brand-logo,:root:not([data-theme="light"]) .brand-prev{background:#FBFAF6;padding:2px 4px}}
+.brand-prev{width:64px;height:64px;border:1px dashed var(--line-2);border-radius:6px;display:flex;align-items:center;justify-content:center;flex:none;color:var(--ink-3);font-size:11px;overflow:hidden}
+.brand-prev img{max-width:100%;max-height:100%;object-fit:contain}
+.help-body{display:flex;flex-direction:column;gap:2px;margin-bottom:14px}
+.help-body details{border:1px solid var(--line);border-radius:var(--radius);padding:0}
+.help-body summary{cursor:pointer;font-weight:600;padding:9px 12px;font-family:var(--font-display)}
+.help-body details[open]{background:var(--paper-2)}
+.help-body p{margin:0;padding:0 12px 11px;color:var(--ink-2);font-size:13px;line-height:1.5}
+.brand .name{font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:.01em}
+.brand .sub{font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;display:block;margin-top:-2px}
+.topbar .course-title{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.topbar .course-title input{border:none;background:transparent;font-family:var(--font-display);font-size:19px;font-weight:600;padding:2px 6px;margin-left:-6px;border-radius:4px;width:100%;max-width:560px}
+.topbar .course-title input:hover{background:var(--paper-2)}
+.topbar .course-title .meta{font-size:12px;color:var(--ink-2);display:flex;gap:10px;flex-wrap:wrap}
+.topbar .actions{display:flex;gap:8px;align-items:center}
+.savestate{font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:6px;padding-right:6px}
+.savestate .dot{width:7px;height:7px;border-radius:50%;background:var(--ink-3)}
+.savestate.saved .dot{background:var(--ok)} .savestate.dirty .dot{background:var(--warn)} .savestate.saving .dot{background:var(--accent);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+@media (prefers-reduced-motion: reduce){.savestate.saving .dot{animation:none}}
+
+.main{display:grid;grid-template-columns:300px 1fr 320px;min-height:0}
+.sidebar,.inspector{background:var(--paper);min-height:0;display:flex;flex-direction:column}
+.sidebar{border-right:1px solid var(--line)}
+.inspector{border-left:1px solid var(--line)}
+.tabs{display:flex;border-bottom:1px solid var(--line);padding:0 8px}
+.tabs button{flex:1;background:none;border:none;border-bottom:2px solid transparent;padding:11px 6px;font-weight:500;color:var(--ink-2);cursor:pointer;letter-spacing:.01em}
+.tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}
+.panel{display:none;overflow:auto;padding:14px;flex:1;min-height:0}
+.panel.active{display:block}
+.panel h3{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-family:var(--font-ui);font-weight:600;margin:10px 0 8px}
+.panel h3:first-child{margin-top:0}
+
+/* ---------- Buttons & fields ---------- */
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-2);background:var(--paper);padding:7px 12px;border-radius:var(--radius);cursor:pointer;font-weight:500;white-space:nowrap;line-height:1.2}
+.btn:hover{background:var(--paper-2)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--rail);border-color:var(--rail)}
+.btn.sm{padding:4px 9px;font-size:12px}
+.btn.icon{padding:6px 8px}
+.btn:disabled{opacity:.45;cursor:default}
+.btn svg{width:15px;height:15px}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.field label{font-size:11.5px;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.field input,.field select,.field textarea{border:1px solid var(--line-2);background:var(--paper);border-radius:var(--radius);padding:7px 9px;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.row{display:flex;gap:10px}
+.row .field{flex:1;min-width:0}
+.hint{font-size:12px;color:var(--ink-3)}
+.divider{border:none;border-top:1px solid var(--line);margin:14px 0}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--paper-2);border:1px solid var(--line);color:var(--ink-2);font-weight:500}
+.chip.ok{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.chip.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.chip.bad{background:var(--rail-soft);color:var(--rail);border-color:transparent}
+
+/* ---------- Lists ---------- */
+.list{display:flex;flex-direction:column;gap:6px}
+.card{border:1px solid var(--line);border-radius:var(--radius);padding:9px 11px;background:var(--paper);cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.card:hover{border-color:var(--line-2);background:var(--paper-2)}
+.card.active{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.card .t{font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.card .t .name{font-family:var(--font-display);font-size:14px}
+.card .m{font-size:12px;color:var(--ink-2);display:flex;gap:8px;flex-wrap:wrap}
+.card .acts{display:flex;gap:4px;margin-top:4px}
+.card.inv{flex-direction:row;align-items:center;gap:10px;cursor:default}
+.card.inv .sym{width:44px;height:30px;flex:none}
+.card.inv .body{flex:1;min-width:0}
+.card.inv .body .name{font-weight:600}
+.card.inv .body .m{font-size:12px}
+.card.inv .qty{display:flex;align-items:center;gap:4px}
+.card.inv .qty input{width:44px;text-align:center;border:1px solid var(--line-2);border-radius:4px;padding:3px}
+.empty{color:var(--ink-3);font-size:13px;padding:20px 6px;text-align:center}
+
+/* ---------- Canvas ---------- */
+.canvas-wrap{position:relative;min-height:0;display:flex;flex-direction:column}
+.toolbar{display:flex;gap:6px;align-items:center;padding:8px 12px;background:var(--paper);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.toolbar .sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+.toolbar .spacer{flex:1}
+.toolbar label.tog{display:inline-flex;gap:5px;align-items:center;font-size:12.5px;color:var(--ink-2);cursor:pointer;padding:0 4px}
+.stage{flex:1;min-height:0;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;padding:18px}
+.stage svg.plan{width:100%;height:100%;max-height:100%;display:block}
+.stage.mode-renumber{cursor:crosshair}
+.stage .hud{position:absolute;left:16px;bottom:14px;display:flex;gap:8px;align-items:center;pointer-events:none}
+.stage .hud .chip{pointer-events:auto}
+.stage .banner{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--accent-ink);padding:8px 14px;border-radius:999px;font-weight:500;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center}
+.stage .banner button{background:rgba(255,255,255,.2);border:none;color:inherit;padding:3px 9px;border-radius:999px;cursor:pointer}
+.issues{position:absolute;right:14px;bottom:14px;max-width:340px;display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.issues .chip{max-width:100%;white-space:normal;text-align:left}
+
+/* plan SVG styling (shared with print) */
+svg.plan text{font-family:var(--font-ui)}
+svg.plan .footing{fill:none}
+svg.plan .rail{fill:none;stroke:var(--rail-line);stroke-width:.9}
+svg.plan .grid{stroke:var(--footing-grid);stroke-width:.2}
+svg.plan .centerline{stroke:var(--footing-grid);stroke-width:.35;stroke-dasharray:3 3}
+svg.plan .gate{fill:var(--paper);stroke:var(--rail-line);stroke-width:.6}
+svg.plan .gate-label{font-size:3px;fill:var(--ink-2);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+svg.plan .route{fill:none;stroke:var(--route);stroke-width:.75;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+svg.plan .route.jo{stroke:var(--route-jo);stroke-dasharray:2.5 2;stroke-width:.7}
+svg.plan .route-arrow{fill:var(--route)}
+svg.plan .track-hit{fill:none;stroke:transparent;stroke-width:7;pointer-events:stroke;cursor:copy}
+svg.plan .track-hit:hover{stroke:var(--accent);opacity:.18}
+svg.plan .wp{fill:var(--paper);stroke:var(--accent);stroke-width:.7;cursor:move;display:none}
+svg.plan .handles.hot .wp{display:block}
+svg.plan .seg.hot .track-hit{stroke:var(--accent);opacity:.12}
+svg.plan .wp:hover{fill:var(--accent-soft)}
+@media (hover:none){svg.plan .wp{display:block}}
+svg.plan .route-arrow.jo{fill:var(--route-jo)}
+svg.plan .fence{cursor:grab}
+svg.plan .fence.dragging{cursor:grabbing}
+svg.plan .fence .rail-line{stroke:var(--ink);stroke-width:1.15;stroke-linecap:round}
+svg.plan .fence.oxer .rail-line,svg.plan .fence.swedish .rail-line,svg.plan .fence.triple .rail-line{stroke:var(--bay)}
+svg.plan .fence .wing{stroke:var(--ink-2);stroke-width:.45}
+svg.plan .fence .fill-box{fill:var(--bay);opacity:.85}
+svg.plan .fence .water{fill:#5B8DB8;opacity:.6}
+svg.plan .fence .brush{fill:var(--accent);opacity:.7}
+svg.plan .fence .dir{fill:var(--ink-2)}
+svg.plan .fence .hit{fill:transparent;stroke:none}
+svg.plan .fence .badge{fill:var(--paper);stroke:var(--ink);stroke-width:.55}
+svg.plan .fence .badge-jo{fill:var(--route-jo);stroke:none}
+svg.plan .fence .badge-t{font-size:3.7px;font-weight:600;fill:var(--ink);text-anchor:middle;dominant-baseline:central;font-family:var(--font-mono)}
+svg.plan .fence .badge-jo-t{font-size:2.5px;font-weight:600;fill:#fff;text-anchor:middle;dominant-baseline:central;font-family:var(--font-mono)}
+svg.plan .fence .lbl{font-size:2.4px;fill:var(--ink-2);text-anchor:middle}
+svg.plan .fence.selected .sel{fill:none;stroke:var(--accent);stroke-width:.6;stroke-dasharray:1.5 1.2}
+svg.plan .fence .sel{display:none}
+svg.plan .fence.selected .sel{display:block}
+svg.plan .fence .rot-handle{fill:var(--paper);stroke:var(--accent);stroke-width:.6;cursor:alias;display:none}
+svg.plan .fence.selected .rot-handle{display:block}
+svg.plan .dist{font-size:2.6px;fill:var(--accent);font-weight:600;text-anchor:middle;font-family:var(--font-mono)}
+svg.plan .dist-bg{fill:var(--paper);opacity:.9}
+
+svg.plan .startfin{font-size:2.8px;font-weight:700;fill:var(--ink);text-anchor:middle;letter-spacing:.08em}
+svg.plan .startfin-line{stroke:var(--ink);stroke-width:.6}
+svg.plan .scale-t{font-size:2.6px;fill:var(--ink-3);font-family:var(--font-mono)}
+svg.plan .scale-l{stroke:var(--ink-3);stroke-width:.5}
+svg.plan .dim-t{font-size:3px;fill:var(--ink-3);font-family:var(--font-mono);text-anchor:middle}
+svg.plan .collide .rail-line{stroke:var(--rail)}
+svg.plan .ms-line{stroke:var(--warn);stroke-width:.6;stroke-dasharray:1.5 1.2}
+svg.plan .ms-dot{fill:var(--warn)}
+svg.plan .ms-t{font-size:2.8px;font-weight:600;fill:var(--warn);text-anchor:middle;font-family:var(--font-mono)}
+.card.inv img.sym.thumb{width:44px;height:30px;object-fit:cover;border-radius:3px;border:1px solid var(--line)}
+.ps-side td img.thumb{width:.42in;height:.3in;object-fit:cover;border-radius:2px;float:left;margin:0 4px 2px 0;border:.5pt solid #CFC9BC}
+.ps-side.crew{grid-template-columns:minmax(0,1fr) 1.5in;font-size:7.5pt}
+.ps.v-crew .ps-plan{height:3.5in}
+.ps-side.crew td img.thumb{width:.34in;height:.24in}
+.ps.v-judge .ps-side table{font-size:9.5pt}
+.ps.v-judge .ps-side td{padding:4px 3px}
+.prvar{display:flex;flex-direction:column;gap:8px;margin:4px 0 14px}
+.prvar label{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;border:1px solid var(--line);border-radius:var(--radius);cursor:pointer}
+.prvar label:hover{background:var(--paper-2)}
+.prvar label b{display:block}
+.prvar label span{font-size:12px;color:var(--ink-2)}
+.prvar input{margin-top:3px}
+.toolbar .btn.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+svg.plan .fence.inactive{opacity:.32}
+svg.plan .fence.inactive .dir{display:none}
+svg.plan .fence.inactive.selected{opacity:.7}
+
+/* ---------- Inspector ---------- */
+.insp-head{padding:14px 14px 8px;border-bottom:1px solid var(--line)}
+.insp-head h2{font-size:17px}
+.insp-head .hint{margin-top:2px}
+.insp-body{overflow:auto;padding:14px;flex:1;min-height:0}
+.fence-list{display:flex;flex-direction:column;gap:3px;margin-top:6px}
+.fence-row{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:6px 8px;border-radius:var(--radius);border:1px solid transparent;cursor:pointer}
+.fence-row:hover{background:var(--paper-2)}
+.fence-row.active{border-color:var(--accent);background:var(--accent-soft)}
+.fence-row .n{font-family:var(--font-mono);font-weight:600;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:12px;background:var(--paper)}
+.fence-row .d{font-size:12.5px;line-height:1.25}
+.fence-row .d small{display:block;color:var(--ink-3);font-size:11px}
+.fence-row .h{font-family:var(--font-mono);font-size:12px;color:var(--ink-2)}
+.segbtns{display:flex;gap:2px;flex-wrap:wrap}
+.segbtns button{border:1px solid var(--line-2);background:var(--paper);padding:4px 8px;border-radius:4px;cursor:pointer;font-size:12px}
+.segbtns button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12.5px}
+.kv dt{color:var(--ink-3)} .kv dd{margin:0;font-family:var(--font-mono)}
+
+/* ---------- Modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(20,25,22,.45);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:var(--paper);border-radius:10px;box-shadow:var(--shadow);width:min(720px,100%);max-height:92vh;overflow:auto;padding:22px 24px}
+.modal h2{font-size:21px;margin-bottom:4px}
+.modal .lead{color:var(--ink-2);margin:0 0 16px}
+.modal .foot{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.tmpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:12px}
+.tmpl{border:1px solid var(--line);border-radius:var(--radius);padding:10px;cursor:pointer;display:flex;flex-direction:column;gap:4px}
+.tmpl:hover{background:var(--paper-2)}
+.tmpl.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.tmpl .tn{font-weight:600;font-family:var(--font-display)}
+.tmpl .td{font-size:12px;color:var(--ink-2)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:999px;font-size:13px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
+.toast.show{opacity:1}
+
+body[data-build=web] .artifact-only{display:none}
+body[data-build=artifact] .web-only{display:none}
+
+/* ---------- Rider view (read-only, phone-first) ---------- */
+body.rider #app,body.rider .modal-bg,body.rider .toast{display:none !important}
+#riderview{display:none}
+body.rider #riderview{display:block}
+.rv-wrap{max-width:900px;margin:0 auto;padding:14px 14px 40px;display:flex;flex-direction:column;gap:12px}
+.rv-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.rv-fac{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3)}
+.rv-logo{height:44px;max-width:140px;object-fit:contain;display:block;margin-bottom:4px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .rv-logo{background:#FBFAF6;border-radius:4px;padding:2px 4px}}
+.rv-head h1{font-size:22px}
+.rv-sub{font-size:13px;color:var(--ink-2);margin-top:2px}
+.rv-head .order{border:1.5px solid var(--ink);border-radius:4px;padding:3px 9px;font-family:var(--font-mono);font-weight:600;white-space:nowrap}
+.rv-plan{overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:6px;touch-action:pan-x pan-y pinch-zoom;-webkit-overflow-scrolling:touch}
+.rv-plan svg{display:block;min-width:100%}
+.rv-zoom{display:flex;gap:8px;align-items:center;justify-content:center}
+.rv-stats{display:flex;gap:6px;flex-wrap:wrap}
+.rv-table{width:100%;border-collapse:collapse;font-size:14px;background:var(--paper);border:1px solid var(--line);border-radius:6px}
+.rv-table th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);padding:8px;border-bottom:1px solid var(--line)}
+.rv-table td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.rv-table td.n{font-family:var(--font-mono);font-weight:600}
+.rv-table small{color:var(--ink-3)}
+.rv-notes{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:10px;white-space:pre-wrap}
+.rv-foot{font-size:12px;color:var(--ink-3);text-align:center}
+table.ledger{width:100%;border-collapse:collapse;font-size:12.5px}
+table.ledger th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);padding:4px 6px;border-bottom:1px solid var(--line)}
+table.ledger td{padding:4px 6px;border-bottom:1px solid var(--line)}
+table.ledger tr.over td{color:var(--rail)}
+
+/* rider board */
+.rv-date{font-family:var(--font-ui);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:6px 0 0}
+.rv-list{display:flex;flex-direction:column;gap:6px}
+.rv-item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer;font:inherit;color:inherit}
+.rv-item:hover{background:var(--paper-2)}
+.rv-item small{color:var(--ink-2)}
+.rv-order{font-family:var(--font-mono);font-weight:600;min-width:28px;text-align:center;border:1.5px solid var(--ink);border-radius:4px;padding:2px 4px}
+.rv-order:empty{display:none}
+.rv-chev{font-size:22px;color:var(--ink-3)}
+.ps-qr{text-align:center;line-height:0;margin-left:.12in}
+.ps-qr small{display:block;line-height:1.2;font-size:6.5pt;color:#666;margin-top:2px}
+
+/* ---------- Print ---------- */
+#printsheet{display:none}
+@media print{
+  @page{size:letter portrait;margin:0.5in}
+  html,body{width:7.5in;margin:0;padding:0}
+  .ps{page-break-after:auto;break-inside:avoid}
+  body{background:#fff;color:#111}
+  #app,.modal-bg,.toast{display:none !important}
+  #printsheet{display:block;color:#111;margin:0;
+    --footing:#F1EDE3;--footing-grid:#DCD5C5;--rail-line:#5B5246;--paper:#fff;--ink:#111;--ink-2:#444;--ink-3:#777;--accent:#2E5A43;--bay:#8B5A2B;--route:#2E5A43;--route-jo:#B5422F;--line:#CFC9BC;--rail:#B5422F}
+}
+#printsheet{font-family:var(--font-ui)}
+.ps{--footing:#F1EDE3;--footing-grid:#DCD5C5;--rail-line:#5B5246;--paper:#fff;--ink:#111;--ink-2:#444;--ink-3:#777;--accent:#2E5A43;--bay:#8B5A2B;--route:#2E5A43;--route-jo:#B5422F;--line:#CFC9BC;--rail:#B5422F;color:#111}
+.ps{width:7.5in;height:10in;display:grid;grid-template-rows:auto 1fr auto;gap:.1in;page-break-after:always;border:.6pt solid #8E877A;padding:.16in .18in;box-sizing:border-box;background:#fff;position:relative;overflow:hidden}
+.ps::after{content:"";position:absolute;inset:3pt;border:.3pt solid #CFC9BC;pointer-events:none}
+.ps-head{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;align-items:end;border-bottom:1.5px solid #1E2A22;padding-bottom:.06in;gap:.18in}
+.ps-logo img{height:.62in;max-width:1.2in;object-fit:contain;display:block}
+.ps-head h1{font-size:20pt;font-family:var(--font-display);line-height:1.1}
+.ps-head .sub{font-size:10pt;color:#444;margin-top:2px}
+.ps-head .event{font-size:9pt;color:#1E2A22;margin-top:3px;display:flex;gap:.14in;flex-wrap:wrap}
+.ps-head .event b{font-weight:600}
+.ps-head .facility{font-family:var(--font-display);font-size:11pt;text-align:right;color:#1E2A22;white-space:nowrap}
+.ps-head .facility small{display:block;font-family:var(--font-ui);font-size:8pt;color:#666;text-transform:uppercase;letter-spacing:.08em}
+.ps-head .order{display:inline-block;margin-top:4px;border:1.2px solid #1E2A22;border-radius:3px;padding:2px 7px;font-family:var(--font-mono);font-size:10pt;font-weight:600}
+.ps-body{display:grid;grid-template-rows:auto 1fr;gap:.12in;min-height:0}
+.ps-plan{border:.5pt solid #CFC9BC;border-radius:3px;display:flex;align-items:center;justify-content:center;padding:.06in;min-height:0;height:4.9in}
+.ps-plan svg{width:100%;height:100%}
+.ps-side{display:grid;grid-template-columns:minmax(0,1fr) 2.1in;gap:.16in;font-size:8pt;min-height:0}
+.ps-side>*{min-width:0}
+.ps-side table{width:100%;border-collapse:collapse}
+.ps-side th{text-align:left;font-size:7.5pt;text-transform:uppercase;letter-spacing:.06em;color:#666;border-bottom:1px solid #1E2A22;padding:2px 3px}
+.ps-side td{padding:2px 3px;border-bottom:.5pt solid #E4DFD3;vertical-align:top;line-height:1.25}
+.ps-side td.n{font-family:var(--font-mono);font-weight:600;width:20px}
+.ps-side td.h{font-family:var(--font-mono);white-space:nowrap}
+.ps-side td.dist{font-family:var(--font-mono);color:#2E5A43;font-size:7.5pt}
+.ps-side .typ{color:#666;font-size:7pt}
+.ps-right{display:flex;flex-direction:column;gap:.1in;min-height:0}
+.ps-meta{display:grid;grid-template-columns:auto 1fr;gap:1px 8px;font-size:8.5pt}
+.ps-meta dt{color:#666} .ps-meta dd{margin:0;font-weight:500}
+.ps-notes{border:.5pt solid #CFC9BC;border-radius:3px;padding:4px 6px;min-height:.6in;font-size:8.5pt;white-space:pre-wrap;flex:1}
+.ps-notes .lbl{font-size:7.5pt;text-transform:uppercase;letter-spacing:.06em;color:#666;display:block;margin-bottom:2px}
+.ps-foot{display:flex;justify-content:space-between;font-size:7.5pt;color:#777;border-top:.5pt solid #CFC9BC;padding-top:4px}
+.ps-jo{font-size:8.5pt;padding:4px 6px;border-left:3px solid #B5422F;background:#FBF3F1}
+.ps-jo b{color:#B5422F}
+.two-col tbody{display:block}
+/* live print preview card */
+.preview{position:absolute;right:14px;top:12px;width:240px;height:320px;background:#fff;box-shadow:var(--shadow);border-radius:4px;overflow:hidden;cursor:zoom-in;z-index:5;border:1px solid var(--line)}
+.preview.large{width:auto;height:auto;inset:12px;cursor:zoom-out;display:flex;align-items:center;justify-content:center;background:rgba(20,25,22,.55)}
+.preview .ps{transform-origin:top left;position:absolute;left:0;top:0}
+.preview.large .ps{position:static;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.preview .cap{position:absolute;left:0;right:0;bottom:0;background:var(--ink);color:var(--paper);font-size:11px;padding:3px 8px;text-align:center;opacity:.9}
+/* confirm dialog */
+.modal.small{width:min(440px,100%)}
+.modal.small p{margin:0 0 14px;color:var(--ink-2)}
+@media (max-width:1100px){.main{grid-template-columns:260px 1fr 280px}}
+@media (max-width:860px){
+  .main{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}
+  .sidebar{max-height:34vh;border-right:none;border-bottom:1px solid var(--line)}
+  .inspector{max-height:40vh;border-left:none;border-top:1px solid var(--line)}
+  .topbar{flex-wrap:wrap}
+}
+</style>
+</head><body><div id="riderview"></div><div class="toast" id="toast"></div><script>
+/* ============================================================
+   Meadow Creek Course Designer — data, templates, storage
+   Coordinates: feet, origin at ring center, +u toward the right
+   (long axis), +v toward the top. Headings in degrees, 0 = +u,
+   90 = +v, measured counter-clockwise.
+   ============================================================ */
+'use strict';
+const DATA_PATH = 'data/courseplanner.json';
+const LS_KEY = 'mcf-course-designer-v1';
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-3);
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const rad = d => d * Math.PI / 180, deg = r => r * 180 / Math.PI;
+const norm = a => ((a % 360) + 360) % 360;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const JUMP_TYPES = {
+  vertical:  { label: 'Vertical',     short: 'V'  },
+  oxer:      { label: 'Oxer',         short: 'OX' },
+  swedish:   { label: 'Swedish oxer', short: 'SW' },
+  triple:    { label: 'Triple bar',   short: 'TB' },
+  wall:      { label: 'Wall',         short: 'W'  },
+  gate:      { label: 'Gate',         short: 'G'  },
+  brush:     { label: 'Brush box',    short: 'BR' },
+  liverpool: { label: 'Liverpool',    short: 'LP' },
+  plank:     { label: 'Plank',        short: 'PL' },
+  rolltop:   { label: 'Roll top',     short: 'RT' },
+  coop:      { label: 'Coop',         short: 'CP' },
+  crossrail: { label: 'Cross rail',   short: 'X'  },
+};
+const SPREAD_TYPES = new Set(['oxer', 'swedish', 'triple', 'liverpool']);
+
+// ---------- Product identity ----------
+const APP_NAME = 'Ringcraft';
+const APP_VERSION = 'v14';
+const APP_CREDIT = 'A RippleStone Production by Brian Tormey';
+const FEEDBACK_EMAIL = 'brian@briantormey.com';
+const branding = () => (typeof App !== 'undefined' && App.data && App.data.settings && App.data.settings.branding) || { logo: '', accent: '' };
+function featureMailto() {
+  const fac = (typeof App !== 'undefined' && App.data && App.data.settings && App.data.settings.facility) || '';
+  const subject = APP_NAME + ' feature request' + (fac ? ' — ' + fac : '');
+  const body = 'App: ' + APP_NAME + ' ' + APP_VERSION + ' (' + (typeof BUILD !== 'undefined' ? BUILD : '?') + ' build)\n\nMy idea:\n';
+  return 'mailto:' + FEEDBACK_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+
+const DISCIPLINES = {
+  hunter: { label: 'Hunter', units: 'imperial' },
+  jumper: { label: 'Jumper', units: 'metric' },
+  equitation: { label: 'Equitation', units: 'imperial' },
+};
+const LANE = 32;
+const STRIDES = [9, 10, 10.5, 11, 11.5, 12, 12.5, 13, 14];
+const GATES = { 'S-': 'Long side, bottom · left third', 'S': 'Long side, bottom · center', 'S+': 'Long side, bottom · right third', 'N-': 'Long side, top · left third', 'N': 'Long side, top · center', 'N+': 'Long side, top · right third', 'W-': 'Left end · bottom third', 'W': 'Left end · center', 'W+': 'Left end · top third', 'E-': 'Right end · bottom third', 'E': 'Right end · center', 'E+': 'Right end · top third' };
+const courseUnits = c => c.units || DISCIPLINES[c.disc]?.units || 'imperial';
+// Generic spots for extra single fences when a course asks for more fences than its template (reference ring coords)
+const EXTRA_SPOTS = [
+  { u: -64, v: 0, hd: 90, pref: ['vertical', 'wall', 'brush'] }, { u: 64, v: 0, hd: 270, pref: ['vertical', 'gate', 'rolltop'] },
+  { u: 64, v: 0, hd: 90, pref: ['vertical', 'oxer'] }, { u: -64, v: 0, hd: 270, pref: ['vertical', 'oxer'] },
+  { u: -44, v: 4, hd: 10, pref: ['vertical', 'plank'] }, { u: 44, v: -4, hd: 190, pref: ['vertical', 'coop'] },
+  { u: 0, v: -14, hd: 0, pref: ['oxer', 'vertical'] }, { u: 0, v: 14, hd: 180, pref: ['oxer', 'vertical'] },
+  { u: -30, v: -LANE, hd: 0, pref: ['vertical'] }, { u: 30, v: LANE, hd: 180, pref: ['vertical'] },
+];
+// Heights stored in inches. Labels reflect typical USEF/USHJA section heights.
+const LEVELS = {
+  hunter: [
+    { id: 'xr', label: 'Cross-rails (18")', h: 18, stride: 10 },
+    { id: 'ss', label: "Short / Long Stirrup (2')", h: 24, stride: 11 },
+    { id: '23', label: '2\'3" Beginner / Pony', h: 27, stride: 11 },
+    { id: '26', label: '2\'6" Pre-Children\'s / Pre-Adult', h: 30, stride: 12 },
+    { id: '29', label: '2\'9" Low / Modified', h: 33, stride: 12 },
+    { id: '30', label: '3\' Children\'s / Adult Amateur', h: 36, stride: 12 },
+    { id: '33', label: '3\'3" Junior / Amateur-Owner', h: 39, stride: 12 },
+    { id: '36', label: '3\'6" Junior / Amateur-Owner / Performance', h: 42, stride: 12 },
+    { id: '39', label: '3\'9" Performance / Derby', h: 45, stride: 12 },
+    { id: '40', label: '4\' High Performance', h: 48, stride: 12 },
+  ],
+  jumper: [
+    { id: '065', label: '0.65 m', h: 25.6, stride: 11 },
+    { id: '070', label: '0.70 m', h: 27.6, stride: 11 },
+    { id: '075', label: '0.75 m', h: 29.5, stride: 12 },
+    { id: '080', label: '0.80 m', h: 31.5, stride: 12 },
+    { id: '085', label: '0.85 m', h: 33.5, stride: 12 },
+    { id: '090', label: '0.90 m', h: 35.4, stride: 12 },
+    { id: '095', label: '0.95 m', h: 37.4, stride: 12 },
+    { id: '100', label: '1.00 m', h: 39.4, stride: 12 },
+    { id: '105', label: '1.05 m', h: 41.3, stride: 12 },
+    { id: '110', label: '1.10 m', h: 43.3, stride: 12 },
+    { id: '115', label: '1.15 m', h: 45.3, stride: 12 },
+    { id: '120', label: '1.20 m', h: 47.2, stride: 12 },
+    { id: '125', label: '1.25 m', h: 49.2, stride: 12 },
+    { id: '130', label: '1.30 m', h: 51.2, stride: 12 },
+    { id: '135', label: '1.35 m', h: 53.1, stride: 12 },
+    { id: '140', label: '1.40 m', h: 55.1, stride: 12 },
+  ],
+  equitation: [
+    { id: '20', label: "2' Short Stirrup Eq", h: 24, stride: 11 },
+    { id: '23', label: '2\'3" Pony / Beginner Eq', h: 27, stride: 11 },
+    { id: '26', label: '2\'6" Pre-Children\'s / Pre-Adult Eq', h: 30, stride: 12 },
+    { id: '29', label: '2\'9" Modified Eq', h: 33, stride: 12 },
+    { id: '30', label: '3\' Children\'s / Adult Eq · Taylor Harris', h: 36, stride: 12 },
+    { id: '33', label: '3\'3" USEF Medal · Maclay · USHJA 3\'3"', h: 39, stride: 12 },
+    { id: '36', label: '3\'6" Medal / Maclay Finals · WIHS', h: 42, stride: 12 },
+  ],
+};
+
+// ---------- Course templates (authored on a 200' × 100' reference ring) ----------
+// Each fence: u, v, hd (heading), pref (type preference), line (id groups a related
+// distance; `s` = strides to the next fence in the line), bend (bending line),
+// combo (combination group id), jo (jump-off), trot.
+const A1 = { u: 32.5, v: 17.1 }, A2 = { u: -20.5, v: -11.1 };   // diagonal A (top-right → bottom-left), hd 208
+const B1 = { u: 32.5, v: -17.1 }, B2 = { u: -20.5, v: 11.1 };   // diagonal B (bottom-right → top-left), hd 152
+const TEMPLATES = [
+  {
+    id: 'h-classic8', disc: 'hunter', name: 'Classic 8', fences: 8,
+    desc: 'Outside line, diagonal, outside line, diagonal. The standard hunter round — two 5-stride lines and two diagonals.',
+    fences_: [
+      { u: -52, v: -LANE, hd: 0, pref: ['vertical', 'gate'], line: 'L1', s: 5 },
+      { u: 20, v: -LANE, hd: 0, pref: ['oxer', 'swedish'], line: 'L1' },
+      { ...A1, hd: 208, pref: ['vertical', 'brush', 'wall'], line: 'D1', s: 4 },
+      { ...A2, hd: 208, pref: ['oxer'], line: 'D1' },
+      { u: -20, v: LANE, hd: 0, pref: ['vertical', 'plank'], line: 'L2', s: 5 },
+      { u: 52, v: LANE, hd: 0, pref: ['oxer'], line: 'L2' },
+      { ...B1, hd: 152, pref: ['vertical', 'coop', 'rolltop'], line: 'D2', s: 4 },
+      { ...B2, hd: 152, pref: ['oxer', 'swedish'], line: 'D2' },
+    ],
+  },
+  {
+    id: 'h-derby8', disc: 'hunter', name: 'Derby-style 8', fences: 8,
+    desc: 'Opens and closes over singles at the ends of the ring, with lines and a diagonal between — natural-fill options throughout for a handy or derby feel.',
+    fences_: [
+      { u: -62, v: 0, hd: 90, pref: ['brush', 'coop', 'rolltop', 'vertical'] },
+      { u: -20, v: LANE, hd: 0, pref: ['vertical', 'gate'], line: 'L2', s: 5 },
+      { u: 52, v: LANE, hd: 0, pref: ['oxer'], line: 'L2' },
+      { ...B1, hd: 152, pref: ['wall', 'vertical'], line: 'D2', s: 4 },
+      { ...B2, hd: 152, pref: ['oxer', 'swedish'], line: 'D2' },
+      { u: -52, v: -LANE, hd: 0, pref: ['vertical', 'plank'], line: 'L1', s: 5 },
+      { u: 20, v: -LANE, hd: 0, pref: ['oxer'], line: 'L1' },
+      { u: 62, v: 0, hd: 90, pref: ['coop', 'rolltop', 'brush', 'oxer'] },
+    ],
+  },
+  {
+    id: 'h-short6', disc: 'hunter', name: 'Short Stirrup 6', fences: 6,
+    desc: 'Two outside lines and one diagonal line. Simple, flowing, and forgiving — ideal for cross-rails through 2\'3".',
+    fences_: [
+      { u: -52, v: -LANE, hd: 0, pref: ['crossrail', 'vertical'], line: 'L1', s: 5 },
+      { u: 20, v: -LANE, hd: 0, pref: ['vertical', 'oxer'], line: 'L1' },
+      { ...A1, hd: 208, pref: ['vertical', 'crossrail'], line: 'D1', s: 4 },
+      { ...A2, hd: 208, pref: ['vertical', 'oxer'], line: 'D1' },
+      { u: -20, v: LANE, hd: 0, pref: ['vertical', 'crossrail'], line: 'L2', s: 5 },
+      { u: 52, v: LANE, hd: 0, pref: ['vertical', 'oxer'], line: 'L2' },
+    ],
+  },
+  {
+    id: 'e-medal9', disc: 'equitation', name: 'Medal-style 9', fences: 9,
+    desc: 'Outside line, end jump, bending diagonal, outside line, rollback to a single, and a final single off a short turn.',
+    fences_: [
+      { u: -52, v: -LANE, hd: 0, pref: ['vertical', 'gate'], line: 'L1', s: 5 },
+      { u: 20, v: -LANE, hd: 0, pref: ['oxer'], line: 'L1' },
+      { u: 64, v: -6, hd: 90, pref: ['vertical', 'wall', 'plank'] },
+      { u: 22, v: 22, hd: 210, pref: ['vertical', 'brush'], bend: 'BD', s: 4 },
+      { u: -26, v: -8, hd: 228, pref: ['oxer'], bend: 'BD' },
+      { u: -20, v: LANE, hd: 0, pref: ['vertical', 'plank'], line: 'L2', s: 5 },
+      { u: 52, v: LANE, hd: 0, pref: ['oxer', 'swedish'], line: 'L2' },
+      { u: 30, v: -8, hd: 190, pref: ['vertical', 'rolltop', 'coop'] },
+      { u: -64, v: -8, hd: 90, pref: ['oxer', 'vertical'] },
+    ],
+  },
+  {
+    id: 'e-maclay10', disc: 'equitation', name: 'Maclay-style 10', fences: 10,
+    desc: 'Trot fence to open, diagonal line, one-stride combination into a long line, diagonal, and a rollback to finish. Technical.',
+    fences_: [
+      { u: -30, v: -LANE, hd: 0, pref: ['vertical', 'plank'], trot: true },
+      { ...A1, hd: 208, pref: ['vertical', 'brush'], line: 'D1', s: 4 },
+      { ...A2, hd: 208, pref: ['oxer'], line: 'D1' },
+      { u: -30, v: LANE, hd: 0, pref: ['vertical'], line: 'L2', s: 1, combo: 'C1' },
+      { u: -6, v: LANE, hd: 0, pref: ['oxer', 'vertical'], line: 'L2', s: 5, combo: 'C1' },
+      { u: 66, v: LANE, hd: 0, pref: ['oxer', 'swedish'], line: 'L2' },
+      { ...B1, hd: 152, pref: ['vertical', 'wall'], line: 'D2', s: 4 },
+      { ...B2, hd: 152, pref: ['oxer'], line: 'D2' },
+      { u: -44, v: -2, hd: 350, pref: ['vertical', 'rolltop', 'coop'] },
+      { u: 24, v: -33, hd: 0, pref: ['oxer', 'vertical'] },
+    ],
+  },
+  {
+    id: 'e-prech8', disc: 'equitation', name: 'Pre-Children\'s Eq 8', fences: 8,
+    desc: 'Hunter-style flow with one bending line and one single off the turn. A good first equitation course.',
+    fences_: [
+      { u: -52, v: -LANE, hd: 0, pref: ['vertical', 'gate'], line: 'L1', s: 5 },
+      { u: 20, v: -LANE, hd: 0, pref: ['oxer', 'vertical'], line: 'L1' },
+      { u: 22, v: 22, hd: 210, pref: ['vertical'], bend: 'BD', s: 4 },
+      { u: -26, v: -8, hd: 228, pref: ['oxer', 'vertical'], bend: 'BD' },
+      { u: -20, v: LANE, hd: 0, pref: ['vertical', 'plank'], line: 'L2', s: 5 },
+      { u: 52, v: LANE, hd: 0, pref: ['oxer'], line: 'L2' },
+      { ...B1, hd: 152, pref: ['vertical', 'coop'], line: 'D2', s: 4 },
+      { ...B2, hd: 152, pref: ['oxer', 'vertical'], line: 'D2' },
+    ],
+  },
+  {
+    id: 'j-table2-jo', disc: 'jumper', name: 'Table II.2(b) · 10 + jump-off', fences: 10,
+    desc: 'Technical track with a one-stride double, an end jump, a rollback and a bending finish. A jump-off is pre-marked and shown dashed.',
+    fences_: [
+      { u: -40, v: -LANE, hd: 0, pref: ['vertical', 'gate'], jo: true },
+      { u: 30.5, v: 12.1, hd: 208, pref: ['vertical', 'wall', 'plank'], line: 'D1', s: 4 },
+      { u: -22.5, v: -16.1, hd: 208, pref: ['oxer', 'liverpool'], line: 'D1', jo: true },
+      { u: -42, v: LANE, hd: 0, pref: ['vertical'], line: 'L2', s: 5 },
+      { u: 30, v: LANE, hd: 0, pref: ['vertical', 'plank'], line: 'L2', s: 1, combo: 'C1', jo: true },
+      { u: 54, v: LANE, hd: 0, pref: ['oxer', 'swedish'], line: 'L2', combo: 'C1', jo: true },
+      { u: 64, v: -12, hd: 270, pref: ['vertical', 'rolltop', 'brush'], jo: true },
+      { ...B1, hd: 152, pref: ['vertical', 'gate'], line: 'D2', s: 4 },
+      { ...B2, hd: 152, pref: ['oxer', 'liverpool', 'swedish'], line: 'D2' },
+      { u: -40, v: 4, hd: 10, pref: ['vertical', 'plank', 'wall'], jo: true },
+    ],
+  },
+  {
+    id: 'j-speed10', disc: 'jumper', name: 'Table II Sec. 1 · Speed 10', fences: 10,
+    desc: 'Against the clock — flowing lines with turning options. Two-stride double on the long side; no jump-off.',
+    fences_: [
+      { u: -52, v: -LANE, hd: 0, pref: ['vertical', 'gate'], line: 'L1', s: 5 },
+      { u: 20, v: -LANE, hd: 0, pref: ['oxer'], line: 'L1' },
+      { ...A1, hd: 208, pref: ['vertical', 'plank'], line: 'D1', s: 4 },
+      { ...A2, hd: 208, pref: ['oxer', 'liverpool'], line: 'D1' },
+      { u: -66, v: -10, hd: 90, pref: ['vertical', 'wall'] },
+      { u: -44, v: LANE, hd: 0, pref: ['vertical'], line: 'L2', s: 2, combo: 'C1' },
+      { u: -8, v: LANE, hd: 0, pref: ['oxer'], line: 'L2', s: 4, combo: 'C1' },
+      { u: 52, v: LANE, hd: 0, pref: ['oxer', 'swedish', 'triple'], line: 'L2' },
+      { ...B1, hd: 152, pref: ['vertical', 'rolltop'], line: 'D2', s: 4 },
+      { ...B2, hd: 152, pref: ['oxer', 'liverpool'], line: 'D2' },
+    ],
+  },
+  {
+    id: 'j-school8', disc: 'jumper', name: 'Schooling jumper 8', fences: 8,
+    desc: 'Straightforward eight with one combination. Useful for introducing horses to jumper questions at home.',
+    fences_: [
+      { u: -52, v: -LANE, hd: 0, pref: ['vertical'], line: 'L1', s: 5 },
+      { u: 20, v: -LANE, hd: 0, pref: ['oxer'], line: 'L1' },
+      { ...A1, hd: 208, pref: ['vertical', 'plank'], line: 'D1', s: 4 },
+      { ...A2, hd: 208, pref: ['oxer'], line: 'D1' },
+      { u: -30, v: LANE, hd: 0, pref: ['vertical'], line: 'L2', s: 1, combo: 'C1' },
+      { u: -6, v: LANE, hd: 0, pref: ['oxer', 'vertical'], line: 'L2', combo: 'C1' },
+      { ...B1, hd: 152, pref: ['vertical', 'wall'], line: 'D2', s: 4 },
+      { ...B2, hd: 152, pref: ['oxer', 'swedish'], line: 'D2' },
+    ],
+  },
+];
+
+// ---------- Defaults ----------
+function defaultData() {
+  return {
+    version: 1,
+    updatedAt: Date.now(),
+    settings: { facility: 'Meadow Creek Farm', stride: 12, branding: { logo: '', accent: '' }, shareUrl: 'https://claude.ai/code/artifact/bb423942-eb62-4a3c-8c09-8508fbbaa882', riderFirst: false },
+    rings: [
+      { id: 'r-outdoor', name: 'Outdoor ring', L: 200, W: 100, units: 'ft', gate: 'S', footing: 'Sand / fiber' },
+      { id: 'r-indoor', name: 'Indoor arena', L: 160, W: 80, units: 'ft', gate: 'W', footing: 'GGT' },
+    ],
+    inventory: [
+      { id: 'i1', type: 'vertical', name: 'White vertical', qty: 6, maxH: 48, width: 12, color: 'White' },
+      { id: 'i2', type: 'oxer', name: 'Natural oxer', qty: 3, maxH: 48, width: 12, color: 'Natural' },
+      { id: 'i3', type: 'swedish', name: 'Swedish oxer', qty: 1, maxH: 45, width: 12, color: 'Green/white' },
+      { id: 'i4', type: 'gate', name: 'White gate', qty: 1, maxH: 42, width: 12, color: 'White' },
+      { id: 'i5', type: 'wall', name: 'Stone wall', qty: 1, maxH: 42, width: 12, color: 'Grey' },
+      { id: 'i6', type: 'brush', name: 'Brush box', qty: 2, maxH: 42, width: 12, color: 'Green' },
+      { id: 'i7', type: 'plank', name: 'Plank vertical', qty: 2, maxH: 45, width: 12, color: 'Hunter green' },
+      { id: 'i8', type: 'coop', name: 'Chicken coop', qty: 1, maxH: 36, width: 12, color: 'Natural' },
+      { id: 'i9', type: 'rolltop', name: 'Roll top', qty: 1, maxH: 39, width: 10, color: 'Green' },
+      { id: 'i10', type: 'liverpool', name: 'Liverpool', qty: 1, maxH: 51, width: 12, color: 'Blue' },
+      { id: 'i11', type: 'triple', name: 'Triple bar', qty: 1, maxH: 51, width: 12, color: 'Natural' },
+      { id: 'i12', type: 'crossrail', name: 'Cross rail', qty: 2, maxH: 24, width: 12, color: 'White' },
+    ],
+    courses: [],
+    layouts: [],
+  };
+}
+
+// ---------- Unit helpers ----------
+function ftToDisplay(ft, units) { return (units === 'm' || units === 'metric') ? (Math.round(ft * 0.3048 * 10) / 10).toFixed(1) + ' m' : Math.round(ft) + "'"; }
+const isMetric = u => u === 'metric' || u === 'jumper' || u === 'm';
+function fmtHeight(inches, units) {
+  if (!inches && inches !== 0) return '—';
+  if (isMetric(units)) return (Math.round(inches * 2.54 / 5) * 5 / 100).toFixed(2) + ' m';
+  const ft = Math.floor(inches / 12), i = Math.round(inches - ft * 12);
+  return i ? `${ft}'${i}"` : `${ft}'`;
+}
+function fmtHeightBoth(inches) {
+  const ft = Math.floor(inches / 12), i = Math.round(inches - ft * 12);
+  return `${ft}'${i ? i + '"' : ''} / ${(Math.round(inches * 2.54 / 5) * 5 / 100).toFixed(2)} m`;
+}
+function fmtDist(ft, units) { return isMetric(units) ? (Math.round(ft * 0.3048 * 10) / 10).toFixed(1) + ' m' : Math.round(ft) + "'"; }
+function fmtStride(ft, units) { return isMetric(units) ? (ft * 0.3048).toFixed(2) + ' m' : ft + "'"; }
+function parseHeight(str) {
+  if (!str) return null; str = String(str).trim().toLowerCase();
+  let m;
+  if ((m = str.match(/^([\d.]+)\s*m$/))) return parseFloat(m[1]) * 39.37;
+  if ((m = str.match(/^([\d.]+)\s*cm$/))) return parseFloat(m[1]) / 2.54;
+  if ((m = str.match(/^(\d+)\s*'\s*(\d+)?\s*"?$/))) return +m[1] * 12 + (+m[2] || 0);
+  if ((m = str.match(/^(\d+)\s*"$/))) return +m[1];
+  if ((m = str.match(/^(\d+)\s*(?:ft)?\s*(\d+)?\s*(?:in)?$/))) return +m[1] * 12 + (+m[2] || 0);
+  const f = parseFloat(str); if (!isNaN(f)) return f < 5 ? f * 39.37 : f;
+  return null;
+}
+function fmtDate(d, t) {
+  if (!d) return '';
+  const [y, m, dd] = d.split('-').map(Number);
+  const dt = new Date(y, m - 1, dd);
+  let s = dt.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  if (t) { const [hh, mm] = t.split(':').map(Number); const td = new Date(2000, 0, 1, hh, mm); s += ' · ' + td.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }); }
+  return s;
+}
+
+// ---------- Storage ----------
+const Store = {
+  data: null, artifactNs: null, downloadsNs: null, mode: 'local', dirty: false, timer: null, saving: false, lastBoard: null,
+  isWeb() { return !(window.claude && typeof window.claude.use === 'function'); },
+  async init() {
+    let remote = null, local = null;
+    try { const s = localStorage.getItem(LS_KEY); if (s) local = JSON.parse(s); } catch (e) {}
+    if (this.isWeb()) {
+      // Web edition: GitHub is the shared store (token on this device), the site's own data.json is the read-only copy.
+      if (typeof GH !== 'undefined' && GH.ok()) {
+        try { const f = await GH.getFile('data.json'); if (f) remote = JSON.parse(f.text); this.mode = 'github'; } catch (e) { console.warn(e); this.mode = 'github-error'; this._ghError = e; }
+      } else if (typeof onWebsite === 'function' && onWebsite()) {
+        try { const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) remote = await r.json(); } catch (e) {}
+        this.mode = 'local';
+      }
+    } else {
+      try { const r = await fetch(DATA_PATH, { cache: 'no-store' }); if (r.ok) remote = await r.json(); } catch (e) {}
+    }
+    this.data = (remote && local) ? ((local.updatedAt || 0) > (remote.updatedAt || 0) ? local : remote) : (remote || local || defaultData());
+    if (!this.data.settings) this.data.settings = { facility: 'Meadow Creek Farm', stride: 12 };
+    if (!this.data.settings.branding) this.data.settings.branding = { logo: '', accent: '' };
+    if (!this.data.layouts) this.data.layouts = [];
+    if (!this.isWeb()) {
+      try {
+        if (window.claude && typeof claude.use === 'function') {
+          this.artifactNs = await claude.use('artifact');
+          this.downloadsNs = await claude.use('downloads');
+        }
+      } catch (e) {}
+      this.mode = this.artifactNs ? 'shared' : 'local';
+    }
+  },
+  markDirty() {
+    this.dirty = true; this.data.updatedAt = Date.now();
+    try { localStorage.setItem(LS_KEY, JSON.stringify(this.data)); } catch (e) {}
+    setSaveState('dirty', 'Unsaved changes');
+    clearTimeout(this.timer); this.timer = setTimeout(() => this.save(), 4000);
+  },
+  async save() {
+    clearTimeout(this.timer);
+    if (this.saving) { this.timer = setTimeout(() => this.save(), 2000); return; }
+    this.data.updatedAt = Date.now();
+    try { localStorage.setItem(LS_KEY, JSON.stringify(this.data)); } catch (e) {}
+    if (this.isWeb()) return this.saveWeb();
+    if (!this.artifactNs) { this.dirty = false; setSaveState('saved', 'Saved in this browser'); return; }
+    this.saving = true; setSaveState('saving', 'Saving…');
+    try {
+      await this.artifactNs.publish({ [DATA_PATH]: { content: JSON.stringify(this.data), contentType: 'application/json' } });
+      this.dirty = false; setSaveState('saved', 'Saved · synced');
+    } catch (e) {
+      const code = e && e.code;
+      if (code === 'conflict') { setSaveState('saving', 'Newer version found — reloading'); }
+      else if (code === 'not_writer' || code === 'not_granted' || code === 'not_declared') { this.artifactNs = null; this.mode = 'readonly'; setSaveState('dirty', 'Read-only view — changes stay in this browser'); }
+      else if (code === 'capability_disabled' || code === 'capability_removed') { this.artifactNs = null; this.mode = 'local'; setSaveState('saved', 'Saved in this browser'); }
+      else if (code === 'rate_limited') { setSaveState('dirty', 'Saving paused — will retry'); this.timer = setTimeout(() => this.save(), 15000); }
+      else { setSaveState('dirty', 'Sync failed — kept locally'); console.warn(e); this.timer = setTimeout(() => this.save(), 8000); }
+    } finally { this.saving = false; }
+  },
+  async saveWeb() {
+    if (!GH.ok()) { this.dirty = false; setSaveState('saved', typeof onWebsite === 'function' && onWebsite() ? 'Saved in this browser — connect GitHub in Setup to sync & publish' : 'Saved in this browser'); return; }
+    this.saving = true; setSaveState('saving', 'Publishing to your site…');
+    try {
+      await GH.putFile('data.json', JSON.stringify(this.data), 'Course data · ' + new Date().toISOString());
+      const board = boardContent();
+      if (board !== this.lastBoard) { await GH.putFile('board.json', board, 'Rider board · ' + new Date().toISOString()); this.lastBoard = board; }
+      this.dirty = false; this.mode = 'github'; setSaveState('saved', 'Saved · live on your site');
+    } catch (e) {
+      console.warn(e);
+      if (e.status === 401) setSaveState('dirty', 'GitHub token rejected — check Setup');
+      else if (e.status === 403) setSaveState('dirty', 'GitHub said no (rate limit or permissions) — will retry'), this.timer = setTimeout(() => this.save(), 30000);
+      else { setSaveState('dirty', 'Publish failed — kept locally, will retry'); this.timer = setTimeout(() => this.save(), 10000); }
+    } finally { this.saving = false; }
+  },
+};
+function setSaveState(cls, txt) { const el = $('#saveState'); el.className = 'savestate ' + cls; $('.txt', el).textContent = txt; }
+/* ============================================================
+   Generator, geometry, validation, SVG rendering
+   ============================================================ */
+function ringFeet(ring) { const k = ring.units === 'm' ? 3.28084 : 1; return { L: ring.L * k, W: ring.W * k }; }
+function strideDist(strides, stride) { return strides * stride + 12; } // takeoff + landing ≈ 12'
+
+function pickInventory(pref, height, used, inventory) {
+  const fits = it => (used[it.id] || 0) < it.qty && (!it.maxH || it.maxH >= height - 0.5);
+  for (const t of pref) { const it = inventory.find(i => i.type === t && fits(i)); if (it) { used[it.id] = (used[it.id] || 0) + 1; return it; } }
+  // Any same-family fallback (spread vs upright)
+  const spread = SPREAD_TYPES.has(pref[0]);
+  const alt = inventory.find(i => SPREAD_TYPES.has(i.type) === spread && fits(i));
+  if (alt) { used[alt.id] = (used[alt.id] || 0) + 1; return alt; }
+  return null;
+}
+
+function generateFences(course, tpl, ring, inventory, opts = {}) {
+  const { L, W } = ringFeet(ring);
+  const target = opts.count || course.fenceCount || null;
+  const su = L / 200, sv = W / 100, stride = course.stride || 12;
+  const mirror = opts.mirror ? -1 : 1;
+  const used = {};
+  const lvl = (LEVELS[course.disc] || []).find(l => l.id === course.levelId);
+  const height = course.height || (lvl ? lvl.h : 36);
+  // Adapt the template to the requested number of fences: trim from the end (never splitting a combination),
+  // or add singles at open spots.
+  let src = tpl.fences_.slice();
+  if (target && target < src.length) { let cut = target; while (cut > 1 && src[cut] && src[cut].combo && src[cut].combo === src[cut - 1].combo) cut--; src = src.slice(0, cut); }
+  if (target && target > src.length) {
+    const far = (a, b) => Math.hypot(a.u - b.u, a.v - b.v) >= 20;
+    for (const spot of EXTRA_SPOTS) { if (src.length >= target) break; if (src.every(f => far(f, spot))) src.push({ ...spot }); }
+  }
+  const list = src.map(f => {
+    const u = f.u * su * mirror, v = f.v * sv;
+    const dx = Math.cos(rad(f.hd)) * mirror * su, dy = Math.sin(rad(f.hd)) * sv;
+    let hd = norm(deg(Math.atan2(dy, dx)));
+    const it = pickInventory(f.pref, height, used, inventory);
+    const type = it ? it.type : f.pref[0];
+    return { id: uid(), u, v, hd, type, invId: it ? it.id : null, name: it ? it.name : JUMP_TYPES[type].label,
+      height: f.trot ? Math.max(12, height - 6) : height, width: it ? it.width : 12,
+      line: f.line || null, bend: f.bend || null, s: f.s || null, combo: f.combo || null, jo: !!f.jo, trot: !!f.trot };
+  });
+  // Re-space related distances exactly along each line's direction, keeping the line centroid.
+  const lines = {};
+  list.forEach((f, i) => { if (f.line) (lines[f.line] = lines[f.line] || []).push(i); });
+  for (const ids of Object.values(lines)) {
+    if (ids.length < 2) continue;
+    const first = list[ids[0]], last = list[ids[ids.length - 1]];
+    let dx = last.u - first.u, dy = last.v - first.v; const len = Math.hypot(dx, dy) || 1; dx /= len; dy /= len;
+    const hd = norm(deg(Math.atan2(dy, dx)));
+    const total = ids.slice(0, -1).reduce((a, i) => a + strideDist(list[i].s || 5, stride), 0);
+    const cu = ids.reduce((a, i) => a + list[i].u, 0) / ids.length, cv = ids.reduce((a, i) => a + list[i].v, 0) / ids.length;
+    let pos = -total / 2;
+    ids.forEach((i, k) => {
+      list[i].u = cu + dx * pos; list[i].v = cv + dy * pos; list[i].hd = hd;
+      if (k < ids.length - 1) pos += strideDist(list[i].s || 5, stride);
+    });
+  }
+  // Keep everything inside the ring with a margin
+  const mu = L / 2 - 12, mv = W / 2 - 12;
+  list.forEach(f => { f.u = clamp(f.u, -mu, mu); f.v = clamp(f.v, -mv, mv); f.u = Math.round(f.u * 2) / 2; f.v = Math.round(f.v * 2) / 2; f.hd = Math.round(f.hd); });
+  return list;
+}
+
+// ---------- Numbering (handles combinations: 5A / 5B) ----------
+const isActive = f => f.active !== false;
+const activeFences = c => c.fences.filter(isActive);
+function numberFences(course) {
+  const out = []; let n = 0, prevCombo = null, letter = 0; const act = activeFences(course);
+  act.forEach((f, k) => {
+    if (f.combo && f.combo === prevCombo) { letter++; } else { n++; letter = 0; }
+    prevCombo = f.combo || null;
+    const inCombo = f.combo && (act[k + 1]?.combo === f.combo || (k > 0 && act[k - 1].combo === f.combo));
+    out.push({ n, label: inCombo ? n + String.fromCharCode(65 + letter) : String(n), fence: f, idx: course.fences.indexOf(f), k });
+  });
+  return out;
+}
+const labelOf = (course, f) => { const nums = numberFences(course); const hit = nums.find(x => x.fence === f); return hit ? hit.label : '–'; };
+
+// ---------- Geometry helpers ----------
+const dirOf = hd => ({ x: Math.cos(rad(hd)), y: Math.sin(rad(hd)) });
+const addv = (p, d, k) => ({ x: p.x + d.x * k, y: p.y + d.y * k });
+function signedTurn(h1, h2) { let d = norm(h2 - h1); if (d > 180) d -= 360; return d; }
+
+function relatedDistance(a, b, stride) {
+  // Returns a description if b follows a on a straight or bending related distance.
+  const d = Math.hypot(b.u - a.u, b.v - a.v);
+  if (d > 110 || d < 14) return null;
+  const turn = Math.abs(signedTurn(a.hd, b.hd));
+  const da = dirOf(a.hd); const toB = { x: (b.u - a.u) / d, y: (b.v - a.v) / d };
+  const ahead = da.x * toB.x + da.y * toB.y; // cos of angle between heading and vector to b
+  if (ahead < 0.6) return null;
+  const lateral = Math.abs(-da.y * (b.u - a.u) + da.x * (b.v - a.v));
+  const strides = (d - 12) / stride;
+  const rounded = Math.round(strides);
+  const offset = (strides - rounded) * stride; // feet long(+)/short(-) of a whole stride
+  const straight = turn < 12 && lateral < 7;
+  const bending = !straight && turn < 50 && ahead > 0.8;
+  if (!straight && !bending) return null;
+  let kind = straight ? (rounded <= 2 && d < 42 ? 'combo' : 'line') : 'bend';
+  return { d, strides, rounded, offset, kind, straight };
+}
+function strideLabel(r, units) {
+  const ft = fmtDist(r.d, units);
+  if (r.rounded < 1) return `${ft} (bounce)`;
+  const frac = Math.abs(r.offset) >= 3 ? (r.offset > 0 ? '+' : '−') + fmtDist(Math.abs(r.offset), units) : '';
+  return `${r.rounded} str${r.kind === 'bend' ? ' bend' : ''} · ${ft}${frac ? ' (' + frac + ')' : ''}`;
+}
+
+// ---------- Validation ----------
+function validateCourse(course, ring, inventory) {
+  const issues = []; const { L, W } = ringFeet(ring); const stride = course.stride || 12; const U = courseUnits(course);
+  const nums = numberFences(course); const act = activeFences(course);
+  const lab = f => { const h = nums.find(x => x.fence === f); return h ? h.label : '(unused ' + (f.name || '') + ')'; };
+  course.fences.forEach((f, i) => {
+    const margin = f.width / 2 + 6;
+    if (Math.abs(f.u) > L / 2 - 8 || Math.abs(f.v) > W / 2 - 8) issues.push({ lvl: 'bad', msg: `Fence ${lab(f)} is closer than 8' to the rail` });
+    else if (Math.abs(f.u) > L / 2 - margin || Math.abs(f.v) > W / 2 - margin) issues.push({ lvl: 'warn', msg: `Fence ${lab(f)} is tight to the rail` });
+    for (let j = i + 1; j < course.fences.length; j++) {
+      const g = course.fences[j]; const d = Math.hypot(f.u - g.u, f.v - g.v);
+      const adjacent = j === i + 1 && f.combo && f.combo === g.combo;
+      if (!adjacent && d < 16) issues.push({ lvl: 'bad', msg: `Fences ${lab(f)} and ${lab(g)} are only ${fmtDist(d, U)} apart` });
+    }
+    const inv = inventory.find(x => x.id === f.invId);
+    if (isActive(f) && inv && inv.maxH && f.height > inv.maxH + 0.5) issues.push({ lvl: 'warn', msg: `Fence ${lab(f)}: ${inv.name} is rated to ${fmtHeight(inv.maxH, U)}` });
+  });
+  act.forEach((f, k) => {
+    if (k === 0) return; const p = act[k - 1]; const rel = relatedDistance(p, f, stride);
+    if (rel && rel.kind !== 'bend' && Math.abs(rel.offset) >= 3) issues.push({ lvl: 'warn', msg: `Line ${lab(p)}–${lab(f)} walks ${fmtDist(rel.d, U)}: ${rel.offset > 0 ? 'long' : 'short'} by ${fmtDist(Math.abs(rel.offset), U)} for a ${rel.rounded}-stride` });
+    if (!rel) {
+      const d = Math.hypot(p.u - f.u, p.v - f.v); const turn = Math.abs(signedTurn(p.hd, f.hd));
+      if (d < 36 && turn > 60 && turn <= 110) issues.push({ lvl: 'warn', msg: `Very short approach to ${lab(f)} (${fmtDist(d, U)} with a ${Math.round(turn)}° turn)` });
+    }
+  });
+  if (course.rules !== false) issues.push(...rulebookChecks(course, act, lab, U));
+  const useCount = {};
+  course.fences.forEach(f => { if (f.invId) useCount[f.invId] = (useCount[f.invId] || 0) + 1; });
+  for (const [id, c] of Object.entries(useCount)) { const inv = inventory.find(x => x.id === id); if (inv && c > inv.qty) issues.push({ lvl: 'bad', msg: `${inv.name}: ${c} in the ring, ${inv.qty} in inventory` }); }
+  return issues;
+}
+
+// ---------- Rulebook-style checks (typical USEF / FEI jumper practice; advisory, not the rulebook) ----------
+function rulebookChecks(course, act, lab, U) {
+  const out = []; const h = course.height || 36; const m = h * 0.0254; const stride = course.stride || 12;
+  const R = (msg, lvl = 'warn') => out.push({ lvl, msg: 'Rule: ' + msg });
+  // Combination distances (FEI/USEF guidance, metres): one stride 7.0–8.0 (≤1.20 m) / 7.3–8.2 (>1.20), two strides 10.0–11.0 / 10.5–11.5
+  act.forEach((f, k) => {
+    if (k === 0) return; const p = act[k - 1]; if (!(f.combo && f.combo === p.combo)) return;
+    const d = Math.hypot(f.u - p.u, f.v - p.v) * 0.3048; const big = m > 1.2;
+    const one = big ? [7.3, 8.2] : [7.0, 8.0], two = big ? [10.5, 11.5] : [10.0, 11.0];
+    const inOne = d >= one[0] && d <= one[1], inTwo = d >= two[0] && d <= two[1];
+    if (!inOne && !inTwo) R(`${lab(p)}–${lab(f)} combination is ${d.toFixed(1)} m — outside the usual one-stride (${one[0]}–${one[1]} m) or two-stride (${two[0]}–${two[1]} m) range at ${m.toFixed(2)} m`);
+    if (SPREAD_TYPES.has(p.type) && SPREAD_TYPES.has(f.type) && !big) R(`${lab(p)}–${lab(f)}: spread into spread in a combination is unusual below 1.20 m`);
+  });
+  // Spreads relative to height
+  act.forEach(f => { if (!SPREAD_TYPES.has(f.type)) return; const spIn = f.spread || defaultSpread(f.type, f.height); const hIn = f.height || h; const maxIn = f.type === 'triple' ? hIn + 20 : hIn + 8; if (spIn > maxIn + 0.5) R(`${lab(f)} spread ${fmtHeight(spIn, U)} is wide for a ${fmtHeight(hIn, U)} fence (typical max ${fmtHeight(maxIn, U)})`); });
+  // Jumper-specific
+  if (course.disc === 'jumper') {
+    const n = act.length; const efforts = n;
+    if (efforts < 8) R(`${efforts} efforts — jumper classes usually run 8–13`); if (efforts > 14) R(`${efforts} efforts — more than the usual maximum`);
+    if (!course.speed) R('no speed set — time allowed cannot be computed', 'warn');
+    else if (course.speed < 300 || course.speed > 400) R(`speed ${course.speed} m/min is outside the usual 300–400 range`);
+    const jo = act.filter(f => f.jo); if (jo.length && jo.length < 5) R(`jump-off has ${jo.length} fences — typically at least 5–6`);
+    if (jo.length && jo[0] !== act[0] && !jo.includes(act[0])) R('jump-off usually starts over an early fence of the first round', 'warn');
+    const lp = act.find(f => f.type === 'liverpool'); if (lp && m < 0.9) R(`${lab(lp)} liverpool at ${m.toFixed(2)} m — open water/liverpools are uncommon below 0.90 m`);
+  }
+  // Hunter / equitation
+  if (course.disc !== 'jumper') {
+    if (act.length < 8 && course.disc === 'hunter' && h >= 30) R(`${act.length} fences — hunter classes at ${fmtHeight(h, U)} normally have at least 8`);
+    act.forEach((f, k) => { if (k === 0) return; const p = act[k - 1]; const rel = relatedDistance(p, f, stride); if (rel && rel.straight && rel.kind === 'line' && rel.rounded < 3 && h <= 30) R(`${lab(p)}–${lab(f)}: a ${rel.rounded}-stride line is tight for ${fmtHeight(h, U)} — ponies and beginners usually get 4+ strides`); });
+    if (act[0] && SPREAD_TYPES.has(act[0].type)) R(`first fence ${lab(act[0])} is a spread — hunter courses normally open over a vertical`);
+    if (course.disc === 'hunter') act.forEach(f => { if (f.type === 'liverpool') R(`${lab(f)} liverpool is not used in hunter classes`); });
+  }
+  return out;
+}
+
+// ---------- Auto-route: choose and order fences from a fixed jump layout ----------
+function autoRoute(fences, count, ring, stride, opts = {}) {
+  const n = fences.length; count = clamp(count || n, 1, n); if (!n) return [];
+  const { L, W } = ringFeet(ring);
+  const segCost = (a, b, others) => {
+    const d = Math.hypot(b.u - a.u, b.v - a.v); const turn = Math.abs(signedTurn(a.hd, b.hd));
+    const rel = relatedDistance(a, b, stride);
+    if (rel && rel.straight) return -(rel.kind === 'combo' ? 26 : 32) + Math.abs(rel.offset) * 1.5;
+    if (rel) return -12 + Math.abs(rel.offset);
+    let cost = turn / 22;
+    if (d < 40) cost += (40 - d) / 3; if (d > 150) cost += (d - 150) / 20;
+    if (turn > 135) cost += 2.5;
+    // Does the straight-ish path to b plough through another jump?
+    if (turn < 60) for (const g of others) { if (g === a || g === b) continue; const t = ((g.u - a.u) * (b.u - a.u) + (g.v - a.v) * (b.v - a.v)) / (d * d || 1); if (t > 0.1 && t < 0.9) { const px = a.u + t * (b.u - a.u), py = a.v + t * (b.v - a.v); if (Math.hypot(g.u - px, g.v - py) < 10) cost += 8; } }
+    return cost;
+  };
+  const startCost = f => { const d = dirOf(f.hd); const back = Math.min(L / 2 - Math.abs(f.u - d.x * 40) , W / 2 - Math.abs(f.v - d.y * 40)); return (Math.abs(d.y) > 0.7 ? 2.5 : 0) + (back < 0 ? 4 : 0); };
+  const rnd = opts.random === false ? () => 0 : () => (Math.random() - 0.5) * 2;
+  let best = null;
+  const trials = opts.trials || 240;
+  for (let t = 0; t < trials; t++) {
+    const rem = new Set(fences); const order = [];
+    let cur = fences.slice().sort((a, b) => (startCost(a) + rnd() * 2) - (startCost(b) + rnd() * 2))[t === 0 ? 0 : Math.floor(Math.random() * Math.min(n, 4))];
+    let total = startCost(cur); order.push(cur); rem.delete(cur);
+    while (order.length < count && rem.size) {
+      let pick = null, pc = Infinity;
+      for (const f of rem) { const c = segCost(cur, f, fences) + (t ? rnd() * 1.5 : 0); if (c < pc) { pc = c; pick = f; } }
+      // Keep combinations together
+      order.push(pick); rem.delete(pick); total += pc; cur = pick;
+      if (pick.combo) { const mate = fences.find(g => g !== pick && g.combo === pick.combo && rem.has(g)); if (mate && order.length < count) { order.push(mate); rem.delete(mate); total += segCost(pick, mate, fences); cur = mate; } }
+    }
+    if (!best || total < best.total) best = { order, total };
+  }
+  return best.order;
+}
+
+// ---------- Route path ----------
+function routePath(course, ring, fences) {
+  // fences: array of fence objects in order. Returns {d, arrows:[{x,y,hd}]}
+  const { L, W } = ringFeet(ring);
+  const inside = p => ({ x: clamp(p.x, -L / 2 + 8, L / 2 - 8), y: clamp(p.y, -W / 2 + 8, W / 2 - 8) });
+  if (!fences.length) return { d: '', arrows: [], segs: [], length: 0, start: null, finish: null };
+  const arrows = []; const segs = []; let length = 0; let cur; let sd = '';
+  const track = course.track || {};
+  const pt = f => ({ x: f.u, y: f.v });
+  const f0 = fences[0]; const d0 = dirOf(f0.hd);
+  const start = inside(addv(pt(f0), d0, -28));
+  let d = `M${start.x.toFixed(1)},${start.y.toFixed(1)}`; cur = start;
+  const lineTo = p => { const t = ` L${p.x.toFixed(1)},${p.y.toFixed(1)}`; d += t; sd += t; length += Math.hypot(p.x - cur.x, p.y - cur.y); cur = p; };
+  const curveTo = (c1, c2, p) => { const t = ` C${c1.x.toFixed(1)},${c1.y.toFixed(1)} ${c2.x.toFixed(1)},${c2.y.toFixed(1)} ${p.x.toFixed(1)},${p.y.toFixed(1)}`; d += t; sd += t; let prev = cur; for (let t = 1; t <= 16; t++) { const q = bez(cur, c1, c2, p, t / 16); length += Math.hypot(q.x - prev.x, q.y - prev.y); prev = q; } cur = p; };
+  lineTo(pt(f0));
+  for (let i = 0; i < fences.length - 1; i++) {
+    const a = fences[i], b = fences[i + 1]; const da = dirOf(a.hd), db = dirOf(b.hd);
+    const dist = Math.hypot(b.u - a.u, b.v - a.v);
+    const rel = relatedDistance(a, b, course.stride || 12);
+    sd = `M${cur.x.toFixed(1)},${cur.y.toFixed(1)}`; const key = a.id + '>' + b.id;
+    if (rel && rel.straight) { lineTo(pt(b)); arrows.push({ x: (a.u + b.u) / 2, y: (a.v + b.v) / 2, hd: a.hd }); segs.push({ key, from: a.id, to: b.id, d: sd, straight: true }); continue; }
+    const Lp = addv(pt(a), da, Math.min(18, dist * .3)); const Ap = addv(pt(b), db, -Math.min(18, dist * .3));
+    const wps = (track[key] || []).map(inside);
+    if (wps.length) {
+      // Manual track: Hermite spline through landing → waypoints → approach. The end tangents are the
+      // fence headings, so the curve leaves the landing stub and joins the approach stub with no kink;
+      // interior tangents are Catmull-Rom (half the chord between neighbours).
+      lineTo(Lp);
+      const P = [Lp, ...wps, Ap]; const n = P.length;
+      const tan = j => {
+        if (j === 0) { const m = clamp(Math.hypot(P[1].x - P[0].x, P[1].y - P[0].y) * 0.9, 10, 45); return { x: da.x * m, y: da.y * m }; }
+        if (j === n - 1) { const m = clamp(Math.hypot(P[n - 1].x - P[n - 2].x, P[n - 1].y - P[n - 2].y) * 0.9, 10, 45); return { x: db.x * m, y: db.y * m }; }
+        return { x: (P[j + 1].x - P[j - 1].x) / 2, y: (P[j + 1].y - P[j - 1].y) / 2 };
+      };
+      for (let j = 0; j < n - 1; j++) {
+        const p1 = P[j], p2 = P[j + 1], t1 = tan(j), t2 = tan(j + 1);
+        const c1 = { x: p1.x + t1.x / 3, y: p1.y + t1.y / 3 }, c2 = { x: p2.x - t2.x / 3, y: p2.y - t2.y / 3 };
+        curveTo(c1, c2, p2);
+        if (j === Math.floor((n - 2) / 2)) { const m = bez(p1, c1, c2, p2, .5), m2 = bez(p1, c1, c2, p2, .55); arrows.push({ x: m.x, y: m.y, hd: deg(Math.atan2(m2.y - m.y, m2.x - m.x)) }); }
+      }
+      lineTo(pt(b)); segs.push({ key, from: a.id, to: b.id, d: sd, manual: true, wps, Lp, Ap }); continue;
+    }
+    // Which way do we turn? Toward the side the next approach point lies on.
+    const rel2 = { x: Ap.x - Lp.x, y: Ap.y - Lp.y };
+    const cross = da.x * rel2.y - da.y * rel2.x; const st = signedTurn(a.hd, b.hd);
+    const left = Math.abs(st) <= 110 ? st >= 0 : cross >= 0;
+    const angle = Math.abs(st) <= 110 ? Math.abs(st) : (left ? norm(b.hd - a.hd) : norm(a.hd - b.hd)); // turn magnitude in the chosen direction
+    const midHd = left ? a.hd + angle / 2 : a.hd - angle / 2;
+    lineTo(Lp);
+    if (angle <= 135) {
+      const span = Math.hypot(rel2.x, rel2.y); const k = clamp(span * .4, 12, 45);
+      const c1 = inside(addv(Lp, da, k)), c2 = inside(addv(Ap, db, -k));
+      curveTo(c1, c2, Ap);
+      const m = bez(Lp, c1, c2, Ap, .5); arrows.push({ x: m.x, y: m.y, hd: midHd });
+    } else {
+      // Loop or rollback: carry on forward past the landing, then swing around toward the approach.
+      const side = left ? { x: -da.y, y: da.x } : { x: da.y, y: -da.x };
+      const fwd = da.x * rel2.x + da.y * rel2.y, lat = side.x * rel2.x + side.y * rel2.y;
+      const M = inside(addv(addv(Lp, da, Math.max(fwd, 0) * 0.5 + 22), side, Math.max(lat * 0.5, 10)));
+      const dm = dirOf(midHd);
+      const k1 = clamp(Math.hypot(M.x - Lp.x, M.y - Lp.y) * .5, 12, 40), k2 = clamp(Math.hypot(Ap.x - M.x, Ap.y - M.y) * .5, 12, 40);
+      const c1 = inside(addv(Lp, da, k1)), c2 = inside(addv(M, dm, -k1)), c3 = inside(addv(M, dm, k2)), c4 = inside(addv(Ap, db, -k2));
+      curveTo(c1, c2, M); curveTo(c3, c4, Ap);
+      arrows.push({ x: M.x, y: M.y, hd: midHd });
+    }
+    lineTo(pt(b)); segs.push({ key, from: a.id, to: b.id, d: sd, Lp, Ap });
+  }
+  const fl = fences[fences.length - 1]; const dl = dirOf(fl.hd);
+  const finish = inside(addv(pt(fl), dl, 28));
+  lineTo(finish);
+  return { d, arrows, segs, length, start: { p: start, hd: f0.hd }, finish: { p: finish, hd: fl.hd } };
+}
+function courseStats(course, ring) {
+  const act = activeFences(course); if (!act.length) return null;
+  const r = routePath(course, ring, act); const lengthM = r.length * 0.3048;
+  const speed = +course.speed || 0; // m/min
+  const ta = speed ? Math.ceil(lengthM / speed * 60) : null;
+  return { lengthFt: r.length, lengthM, speed, timeAllowed: ta, timeLimit: ta ? ta * 2 : null, lengthJo: course.disc === 'jumper' && act.filter(f => f.jo).length >= 2 ? routePath(course, ring, act.filter(f => f.jo)).length : null };
+}
+const fmtSecs = s => s == null ? '—' : (s >= 60 ? Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') : s + ' s');
+function bez(p0, p1, p2, p3, t) { const mt = 1 - t; return { x: mt ** 3 * p0.x + 3 * mt * mt * t * p1.x + 3 * mt * t * t * p2.x + t ** 3 * p3.x, y: mt ** 3 * p0.y + 3 * mt * mt * t * p1.y + 3 * mt * t * t * p2.y + t ** 3 * p3.y }; }
+
+// ---------- SVG rendering ----------
+const defaultSpread = (t, hIn) => {
+  const base = ({ oxer: 36, swedish: 36, triple: 48, liverpool: 36 })[t] || 0;
+  if (!base || !hIn) return base;
+  // Scale the default to the fence height so low courses get sensibly narrow spreads
+  // (typical practice caps: spread ≤ height + 8", triple bars ≤ height + 20")
+  const cap = t === 'triple' ? hIn + 12 : Math.max(12, hIn); // square oxers by default at low heights
+  return Math.min(base, Math.round(cap / 3) * 3);
+};
+function fenceSymbol(f) {
+  // Drawn in a local frame: fence spans x ∈ [-w/2, w/2] along the rail, rider travels +y... we rotate so travel = heading.
+  const w = f.width || 12, h = w / 2; const sp = (f.spread || defaultSpread(f.type, f.height)) / 12 / 2; // half spread in feet
+  let s = '';
+  const rail = (y, cls = 'rail-line') => `<line class="${cls}" x1="${-h}" y1="${y}" x2="${h}" y2="${y}"/>`;
+  switch (f.type) {
+    case 'oxer': s += rail(-sp) + rail(sp); break;
+    case 'swedish': s += `<line class="rail-line" x1="${-h}" y1="${-sp - .6}" x2="${h}" y2="${-sp + .8}"/><line class="rail-line" x1="${-h}" y1="${sp + .6}" x2="${h}" y2="${sp - .8}"/>`; break;
+    case 'triple': s += rail(-sp) + rail(0) + rail(sp); break;
+    case 'liverpool': s += `<ellipse class="water" cx="0" cy=".3" rx="${h - .5}" ry="${sp + .8}"/>` + rail(-sp) + rail(sp); break;
+    case 'wall': s += `<rect class="fill-box" x="${-h}" y="-1.3" width="${w}" height="2.6" rx=".3"/>`; break;
+    case 'coop': s += `<rect class="fill-box" x="${-h}" y="-1.6" width="${w}" height="3.2" rx=".3"/>` + rail(0); break;
+    case 'rolltop': s += `<rect class="fill-box" x="${-h}" y="-1.6" width="${w}" height="3.2" rx="1.6"/>`; break;
+    case 'brush': s += `<rect class="brush" x="${-h}" y="-1.4" width="${w}" height="2.8" rx=".4"/>` + rail(-1.6); break;
+    case 'gate': s += rail(0) + `<line class="wing" x1="${-h + 2}" y1="-1.3" x2="${-h + 2}" y2="1.3"/><line class="wing" x1="${h - 2}" y1="-1.3" x2="${h - 2}" y2="1.3"/><line class="wing" x1="0" y1="-1.3" x2="0" y2="1.3"/>`; break;
+    case 'plank': s += `<rect class="fill-box" x="${-h}" y="-.9" width="${w}" height="1.8"/>`; break;
+    case 'crossrail': s += `<line class="rail-line" x1="${-h}" y1="-1.2" x2="${h}" y2="1.2"/><line class="rail-line" x1="${-h}" y1="1.2" x2="${h}" y2="-1.2"/>`; break;
+    default: s += rail(0);
+  }
+  // standards / wings
+  s += `<line class="wing" x1="${-h - .8}" y1="-2.2" x2="${-h - .8}" y2="2.2"/><line class="wing" x1="${h + .8}" y1="-2.2" x2="${h + .8}" y2="2.2"/>`;
+  return s;
+}
+
+function measureSVG(m, units, stride, live = true) {
+  const d = Math.hypot(m.b.x - m.a.x, m.b.y - m.a.y); const strides = (d - 12) / (stride || 12);
+  const lbl = fmtDist(d, units) + (d > 20 ? ` · ${strides.toFixed(1)} str` : ''); const mx = (m.a.x + m.b.x) / 2, my = (m.a.y + m.b.y) / 2; const tw = lbl.length * 1.6 + 3;
+  return `<g class="${live ? 'measure-live' : 'measure'}"><line class="ms-line" x1="${m.a.x.toFixed(1)}" y1="${m.a.y.toFixed(1)}" x2="${m.b.x.toFixed(1)}" y2="${m.b.y.toFixed(1)}"/><circle class="ms-dot" cx="${m.a.x.toFixed(1)}" cy="${m.a.y.toFixed(1)}" r="1"/><circle class="ms-dot" cx="${m.b.x.toFixed(1)}" cy="${m.b.y.toFixed(1)}" r="1"/><rect class="dist-bg" x="${mx - tw / 2}" y="${-my - 2.2}" width="${tw}" height="4.4" rx="1" transform="scale(1,-1)"/><text class="ms-t" x="${mx}" y="${-my}" transform="scale(1,-1)" dominant-baseline="central">${esc(lbl)}</text></g>`;
+}
+function renderPlanSVG(course, ring, inventory, opts = {}) {
+  const { L, W } = ringFeet(ring);
+  const pad = 16, padX = 26; const vb = `${-L / 2 - padX} ${-W / 2 - pad} ${L + padX * 2} ${W + pad * 2}`;
+  const nums = numberFences(course);
+  const showRoute = opts.route !== false, showDist = opts.dist !== false, showGrid = opts.grid !== false, showJo = opts.jo !== false;
+  const stride = course.stride || 12; const U = courseUnits(course); const metric = isMetric(U);
+  let g = '';
+  // footing + grid
+  g += `<rect class="footing" x="${-L / 2}" y="${-W / 2}" width="${L}" height="${W}" rx="3"/>`;
+  if (showGrid) {
+    const step = metric ? 32.8084 : 20;
+    for (let x = -L / 2 + step; x < L / 2 - 0.1; x += step) g += `<line class="grid" x1="${x}" y1="${-W / 2}" x2="${x}" y2="${W / 2}"/>`;
+    for (let y = -W / 2 + step; y < W / 2 - 0.1; y += step) g += `<line class="grid" x1="${-L / 2}" y1="${y}" x2="${L / 2}" y2="${y}"/>`;
+    g += `<line class="centerline" x1="${-L / 2}" y1="0" x2="${L / 2}" y2="0"/><line class="centerline" x1="0" y1="${-W / 2}" x2="0" y2="${W / 2}"/>`;
+  }
+  g += `<rect class="rail" x="${-L / 2}" y="${-W / 2}" width="${L}" height="${W}" rx="3"/>`;
+  // gate (note: SVG y is flipped via the outer transform so +v is up)
+  const gate = ring.gate || 'S'; const side = gate[0]; const pos = gate.endsWith('-') ? -1 : gate.endsWith('+') ? 1 : 0;
+  let gx = 0, gy = 0, gw = 14, gh = 2.4;
+  if (side === 'S' || side === 'N') { gy = side === 'S' ? -W / 2 : W / 2; gx = pos * L / 3.2; } else { gx = side === 'W' ? -L / 2 : L / 2; gy = pos * W / 3.2; gw = 2.4; gh = 14; }
+  g += `<rect class="gate" x="${gx - gw / 2}" y="${gy - gh / 2}" width="${gw}" height="${gh}" rx=".8"/>`;
+  const glx = side === 'W' ? gx - 5 : side === 'E' ? gx + 5 : gx, gly = side === 'S' ? gy - 5 : side === 'N' ? gy + 5 : gy;
+  g += `<text class="gate-label" x="${glx}" y="${-gly}" text-anchor="${side === 'W' ? 'end' : side === 'E' ? 'start' : 'middle'}" dominant-baseline="central" transform="scale(1,-1)">In-gate</text>`;
+  // dimensions
+  g += `<text class="dim-t" x="0" y="${W / 2 + 9}" transform="scale(1,-1)">${ftToDisplay(L, U)} × ${ftToDisplay(W, U)} · ${esc(ring.name)}</text>`;
+  // routes
+  const routeGroup = [];
+  if (showRoute && course.fences.length) {
+    const r = routePath(course, ring, activeFences(course));
+    routeGroup.push(`<path class="route" d="${r.d}"/>`);
+    if (opts.editable) {
+      r.segs.slice().sort((a, b) => (a.manual ? 1 : 0) - (b.manual ? 1 : 0)).forEach(sg => { if (sg.straight) return; routeGroup.push(`<g class="seg${sg.manual ? ' manual' : ''}${opts.activeSeg === sg.key ? ' hot' : ''}" data-key="${sg.key}"><path class="track-hit" data-key="${sg.key}" d="${sg.d}"/></g>`); });
+      // Handles live above every hit path so they always win the click; shown only for the hovered/active segment.
+      r.segs.forEach(sg => { if (sg.manual) routeGroup.push(`<g class="handles${opts.activeSeg === sg.key ? ' hot' : ''}" data-key="${sg.key}">${sg.wps.map((w, i) => `<circle class="wp" data-key="${sg.key}" data-i="${i}" cx="${w.x.toFixed(1)}" cy="${w.y.toFixed(1)}" r="2"/>`).join('')}</g>`); });
+    }
+    r.arrows.forEach(a => routeGroup.push(`<polygon class="route-arrow" points="2.6,0 -1.9,1.7 -1.9,-1.7" transform="translate(${a.x.toFixed(1)},${a.y.toFixed(1)}) rotate(${a.hd.toFixed(1)})"/>`));
+    const mark = (m, lbl) => { const d = dirOf(m.hd); const p = { x: -d.y, y: d.x }; const P = m.p; routeGroup.push(`<line class="startfin-line" x1="${P.x + p.x * 7}" y1="${P.y + p.y * 7}" x2="${P.x - p.x * 7}" y2="${P.y - p.y * 7}"/>`); routeGroup.push(`<text class="startfin" x="${P.x + p.x * 11}" y="${-(P.y + p.y * 11)}" transform="scale(1,-1)" dominant-baseline="central">${lbl}</text>`); };
+    if (r.start) mark(r.start, 'START'); if (r.finish) mark(r.finish, 'FINISH');
+    if (showJo && course.disc === 'jumper') {
+      const joF = activeFences(course).filter(f => f.jo);
+      if (joF.length >= 2) { const rj = routePath(course, ring, joF); routeGroup.push(`<path class="route jo" d="${rj.d}"/>`); rj.arrows.forEach(a => routeGroup.push(`<polygon class="route-arrow jo" points="2.6,0 -1.9,1.7 -1.9,-1.7" transform="translate(${a.x.toFixed(1)},${a.y.toFixed(1)}) rotate(${a.hd.toFixed(1)})"/>`)); }
+    }
+  }
+  g += `<g class="routes">${routeGroup.join('')}</g>`;
+  // distances
+  if (showDist) {
+    const act = activeFences(course);
+    for (let i = 0; i < act.length - 1; i++) {
+      const a = act[i], b = act[i + 1]; const rel = relatedDistance(a, b, stride); if (!rel) continue;
+      const mx = (a.u + b.u) / 2, my = (a.v + b.v) / 2; const da = dirOf(a.hd); let px = -da.y, py = da.x;
+      if (rel.d < 45) { px = da.y; py = -da.x; } else if (px * mx + py * my < 0) { px = -px; py = -py; }
+      const off = 11; const tx = mx + px * off, ty = my + py * off; const lbl = strideLabel(rel, U); const tw = lbl.length * 1.55 + 2.4;
+      g += `<g class="distg"><rect class="dist-bg" x="${tx - tw / 2}" y="${-ty - 2}" width="${tw}" height="4" rx="1" transform="scale(1,-1)"/><text class="dist" x="${tx}" y="${-ty}" transform="scale(1,-1)" dominant-baseline="central">${esc(lbl)}</text></g>`;
+    }
+  }
+  // fences
+  const joIndex = {}; if (course.disc === 'jumper') { let k = 0; course.fences.forEach((f, i) => { if (f.jo && isActive(f)) joIndex[i] = ++k; }); }
+  const drawList = course.fences.map((f, idx) => { const hit = nums.find(x => x.fence === f); return { label: hit ? hit.label : '', fence: f, idx, inactive: !hit }; }).filter(x => !x.inactive || opts.unused !== false);
+  drawList.forEach(({ label, fence: f, idx, inactive }) => {
+    const sel = (opts.selected === f.id ? ' selected' : '') + (inactive ? ' inactive' : '');
+    const w = f.width || 12;
+    // local frame: travel along +x (heading). Rails run along y. Badge sits on the takeoff side (−x).
+    g += `<g class="fence ${f.type}${sel}" data-id="${f.id}" transform="translate(${f.u},${f.v}) rotate(${f.hd})">
+      <rect class="hit" x="${-9 - (f.spread || 0) / 24}" y="${-w / 2 - 3}" width="${18 + (f.spread || 0) / 12}" height="${w + 6}"/>
+      <rect class="sel" x="-8" y="${-w / 2 - 3}" width="16" height="${w + 6}" rx="1.5"/>
+      <g transform="rotate(90)">${fenceSymbol(f)}</g>
+      <polygon class="dir" points="4.6,0 2.4,1.3 2.4,-1.3"/>
+      <g transform="translate(-7.5,${w / 2 + 1.5}) rotate(${-f.hd}) scale(1,-1)">
+        ${inactive ? '' : `<circle class="badge" r="2.9"/><text class="badge-t">${esc(label)}</text>`}
+        ${joIndex[idx] && showJo ? `<g transform="translate(2.8,-2.8)"><circle class="badge-jo" r="1.7"/><text class="badge-jo-t">${joIndex[idx]}</text></g>` : ''}
+      </g>
+      <g transform="translate(6.5,${w / 2 + 2.5}) rotate(${-f.hd}) scale(1,-1)"><text class="lbl" dominant-baseline="central">${opts.labels === false || inactive ? '' : esc(fmtHeight(f.height, U) + (f.trot ? ' · trot' : ''))}</text></g>
+      <circle class="rot-handle" cx="0" cy="${w / 2 + 7}" r="2.2"/>
+    </g>`;
+  });
+  if (opts.measures && opts.measures.length) g += opts.measures.map(m => measureSVG(m, opts.units, opts.stride, false)).join('');
+  // scale bar
+  const sb = metric ? 32.8084 : 50; const sbx = -L / 2, sby = -W / 2 - 9;
+  g += `<line class="scale-l" x1="${sbx}" y1="${sby}" x2="${sbx + sb}" y2="${sby}"/><line class="scale-l" x1="${sbx}" y1="${sby - 1.5}" x2="${sbx}" y2="${sby + 1.5}"/><line class="scale-l" x1="${sbx + sb}" y1="${sby - 1.5}" x2="${sbx + sb}" y2="${sby + 1.5}"/><text class="scale-t" x="${sbx + sb + 2}" y="${-sby}" transform="scale(1,-1)" dominant-baseline="central">${metric ? '10 m' : "50'"}</text>`;
+  return `<svg class="plan" xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" preserveAspectRatio="xMidYMid meet"><g transform="scale(1,-1)">${g}</g></svg>`;
+}
+/* ============================================================
+   Rider view rendering + self-contained share payloads.
+   Shared by the designer (index.html) and the standalone
+   rider page (rider.html) so both show exactly the same thing.
+   ============================================================ */
+function riderCourseHTML(c, ring, settings, opts = {}) {
+  const nums = numberFences(c); const U = courseUnits(c); const st = courseStats(c, ring); const lvl = (LEVELS[c.disc] || []).find(l => l.id === c.levelId);
+  return `<div class="rv-wrap"><header class="rv-head"><div>${opts.back ? '<button class="btn sm" id="rvBack" style="margin-bottom:6px">‹ All courses</button><br>' : ''}${settings.branding && settings.branding.logo ? `<img class="rv-logo" src="${settings.branding.logo}" alt="">` : ''}<div class="rv-fac">${esc(settings.facility || '')}</div><h1>${esc(c.name)}</h1><div class="rv-sub">${[c.className, (DISCIPLINES[c.disc]?.label || '') + (lvl ? ' · ' + lvl.label : ''), fmtHeight(c.height, U), c.event, fmtDate(c.date, c.time), c.timing].filter(Boolean).map(esc).join(' · ')}</div></div>${c.showOrder ? `<div class="order">Class ${esc(c.showOrder)}</div>` : ''}</header>
+    <div class="rv-plan" id="rvPlan">${renderPlanSVG(c, ring, [], { route: true, dist: true, grid: true, jo: true, unused: false })}</div>
+    <div class="rv-zoom"><button class="btn sm" id="rvOut">−</button><span class="hint">pinch or use buttons to zoom</span><button class="btn sm" id="rvIn">+</button><button class="btn sm" id="rvFit">Fit</button></div>
+    <div class="rv-stats">${st ? `<span class="chip">${isMetric(U) ? Math.round(st.lengthM) + ' m' : Math.round(st.lengthFt) + "'"} track</span>` : ''}${st && st.timeAllowed ? `<span class="chip">TA ${fmtSecs(st.timeAllowed)} · limit ${fmtSecs(st.timeLimit)}</span>` : ''}<span class="chip">${fmtStride(c.stride, U)} stride</span>${c.disc === 'jumper' && nums.some(n => n.fence.jo) ? `<span class="chip bad">Jump-off: ${nums.filter(n => n.fence.jo).map(n => n.label).join(' – ')}</span>` : ''}</div>
+    <table class="rv-table"><thead><tr><th>#</th><th>Jump</th><th>Height</th><th>To next</th></tr></thead><tbody>${nums.map(({ label, fence: f, idx }) => { const nx = c.fences[idx + 1]; const rel = nx && isActive(nx) ? relatedDistance(f, nx, c.stride) : null; return `<tr><td class="n">${label}</td><td>${esc(f.name)}<br><small>${JUMP_TYPES[f.type]?.label}${f.trot ? ' · trot' : ''}${f.note ? ' — ' + esc(f.note) : ''}</small></td><td class="mono">${fmtHeight(f.height, U)}${SPREAD_TYPES.has(f.type) ? '<br><small>× ' + fmtHeight(f.spread || defaultSpread(f.type, f.height), U) + '</small>' : ''}</td><td class="mono">${rel ? (rel.rounded < 1 ? 'bounce' : rel.rounded + (rel.kind === 'bend' ? ' bend' : ' str')) + '<br><small>' + fmtDist(rel.d, U) + '</small>' : ''}</td></tr>`; }).join('')}</tbody></table>
+    ${c.notes ? `<div class="rv-notes"><b>Notes</b><br>${esc(c.notes)}</div>` : ''}<footer class="rv-foot">${esc(c.footer || (settings.facility || '') + ' · ' + APP_NAME)}${c.designer ? ' · Course designer: ' + esc(c.designer) : ''}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
+}
+function riderBindZoom(root) {
+  let zoom = 1; const plan = $('#rvPlan', root); if (!plan) return; const svg = $('svg', plan); const apply = () => { svg.style.width = (100 * zoom) + '%'; svg.style.height = 'auto'; };
+  $('#rvIn', root).onclick = () => { zoom = Math.min(4, zoom * 1.35); apply(); }; $('#rvOut', root).onclick = () => { zoom = Math.max(1, zoom / 1.35); apply(); }; $('#rvFit', root).onclick = () => { zoom = 1; apply(); plan.scrollTo(0, 0); };
+  apply();
+}
+function riderListHTML(courses, settings, opts = {}) {
+  const byDate = {}; courses.forEach(c => (byDate[c.date || 'Undated'] = byDate[c.date || 'Undated'] || []).push(c));
+  return `<div class="rv-wrap"><header class="rv-head"><div>${settings.branding && settings.branding.logo ? `<img class="rv-logo" src="${settings.branding.logo}" alt="">` : ''}<div class="rv-fac">${esc(settings.facility || '')}</div><h1>Courses</h1><div class="rv-sub">Tap a class to open its course plan</div></div>${opts.designerButton ? '<button class="btn sm" id="rvDesigner">Open designer</button>' : ''}</header>
+    ${courses.length ? Object.entries(byDate).map(([d, cs]) => `<h3 class="rv-date">${esc(d === 'Undated' ? d : fmtDate(d))}</h3><div class="rv-list">${cs.map(c => { const ring = c._ring; const lvl = (LEVELS[c.disc] || []).find(l => l.id === c.levelId); return `<button class="rv-item" data-id="${c.id}"><span class="rv-order">${esc(c.showOrder || '')}</span><span><b>${esc(c.name)}</b><br><small>${[c.className, (DISCIPLINES[c.disc]?.label || '') + (lvl ? ' · ' + lvl.label : ''), fmtHeight(c.height, courseUnits(c)), ring ? ring.name : '', c.time ? (fmtDate(c.date, c.time).split(' · ')[1] || '') : ''].filter(Boolean).map(esc).join(' · ')}</small></span><span class="rv-chev">›</span></button>`; }).join('')}</div>`).join('') : '<div class="empty">No courses are published yet.</div>'}
+    <footer class="rv-foot">${esc(settings.facility || '')} · ${APP_NAME}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
+}
+
+// ---------- Share payload: everything a rider page needs, compressed into the URL hash ----------
+const SharePayload = {
+  pack(c, ring, settings) {
+    const act = c.fences.filter(isActive); const idx = id => act.findIndex(x => x.id === id);
+    const r1 = x => Math.round(x * 10) / 10;
+    const f = act.map(x => [r1(x.u), r1(x.v), Math.round(x.hd), x.type, x.name || '', r1(x.height), x.width || 12, x.spread || 0, (x.jo ? 1 : 0) | (x.trot ? 2 : 0), x.note || '', x.combo ? act.filter(y => y.combo === x.combo).map(y => idx(y.id)).join('.') : '']);
+    const track = {}; for (const [k, v] of Object.entries(c.track || {})) { const [a, b] = k.split('>').map(idx); if (a >= 0 && b >= 0) track[a + '>' + b] = v.map(p => [Math.round(p.x), Math.round(p.y)]); }
+    const o = { v: 2, id: c.id, n: c.name, cl: c.className, ev: c.event, o: c.showOrder, t: c.timing, d: c.date, tm: c.time, r: c.rider, ds: c.designer, fo: c.footer, disc: c.disc, lv: c.levelId, u: c.units, s: c.stride, h: c.height, sp: c.speed, nt: c.notes, fac: settings.facility, ring: [ring.name, ring.L, ring.W, ring.units, ring.gate], f, tr: track };
+    Object.keys(o).forEach(k => { if (o[k] === '' || o[k] == null || o[k] === false) delete o[k]; }); if (!Object.keys(track).length) delete o.tr;
+    return o;
+  },
+  unpack(p) {
+    if (p.v === 1) return SharePayload.unpackV1(p);
+    const ids = p.f.map((_, i) => 'f' + i);
+    const fences = p.f.map((x, i) => ({ id: ids[i], u: x[0], v: x[1], hd: x[2], type: x[3], name: x[4], height: x[5], width: x[6], spread: x[7] || 0, jo: !!(x[8] & 1), trot: !!(x[8] & 2), note: x[9] || '', combo: x[10] ? 'c' + x[10] : null, active: true }));
+    const track = {}; for (const [k, v] of Object.entries(p.tr || {})) { const [a, b] = k.split('>'); track[ids[+a] + '>' + ids[+b]] = v.map(q => ({ x: q[0], y: q[1] })); }
+    const course = { id: p.id, name: p.n || 'Course', className: p.cl || '', event: p.ev || '', showOrder: p.o || '', timing: p.t || '', date: p.d || '', time: p.tm || '', rider: p.r || '', designer: p.ds || '', footer: p.fo || '', disc: p.disc, levelId: p.lv, units: p.u, stride: p.s, height: p.h, speed: p.sp || 0, notes: p.nt || '', fences, track };
+    const ring = { id: 'r', name: p.ring[0], L: p.ring[1], W: p.ring[2], units: p.ring[3], gate: p.ring[4] };
+    return { course, ring, settings: { facility: p.fac || '' } };
+  },
+  unpackV1(p) {
+    const ids = p.f.map(x => x[11] || uid());
+    const fences = p.f.map((x, i) => ({ id: ids[i], u: x[0], v: x[1], hd: x[2], type: x[3], name: x[4], height: x[5], width: x[6], spread: x[7] || 0, jo: !!(x[8] & 1), trot: !!(x[8] & 2), note: x[9], combo: x[10] || null, active: true }));
+    const track = {}; for (const [k, v] of Object.entries(p.tr || {})) track[k] = v.map(q => ({ x: q[0], y: q[1] }));
+    const course = { id: p.id, name: p.n, className: p.cl, event: p.ev, showOrder: p.o, timing: p.t, date: p.d, time: p.tm, rider: p.r, designer: p.ds, footer: p.fo, disc: p.disc, levelId: p.lv, units: p.u, stride: p.s, height: p.h, speed: p.sp, notes: p.nt, fences, track };
+    const ring = { id: 'r', name: p.ring.n, L: p.ring.L, W: p.ring.W, units: p.ring.u, gate: p.ring.g };
+    return { course, ring, settings: { facility: p.fac || '' } };
+  },
+  async encode(obj) {
+    const json = JSON.stringify(obj); const bytes = new TextEncoder().encode(json);
+    let out, prefix = 'u';
+    if (typeof CompressionStream === 'function') { try { const cs = new CompressionStream('deflate-raw'); const w = cs.writable.getWriter(); w.write(bytes); w.close(); out = new Uint8Array(await new Response(cs.readable).arrayBuffer()); prefix = 'z'; } catch (e) { out = bytes; } } else out = bytes;
+    let s = ''; out.forEach(b => s += String.fromCharCode(b));
+    return prefix + btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  },
+  async decode(str) {
+    const prefix = str[0]; let b64 = str.slice(1).replace(/-/g, '+').replace(/_/g, '/'); while (b64.length % 4) b64 += '=';
+    const bin = atob(b64); const bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    let json;
+    if (prefix === 'z') { if (typeof DecompressionStream !== 'function') throw new Error('This browser cannot open compressed links'); const ds = new DecompressionStream('deflate-raw'); const w = ds.writable.getWriter(); w.write(bytes); w.close(); json = await new Response(ds.readable).text(); }
+    else json = new TextDecoder().decode(bytes);
+    return JSON.parse(json);
+  },
+};
+/* Standalone rider page boot.
+   Understands three kinds of address:
+   - #<courseId> or #riders  → live view, read from board.json on the same site (updates when the designer saves)
+   - #c=<payload>            → one locked course carried inside the link itself
+   - #b=<payload>            → a locked list of courses carried inside the link  */
+const App = { data: { settings: {} } };
+function toast(m) { const t = document.getElementById('toast'); if (!t) return; t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+function showError(title, text) { document.getElementById('riderview').innerHTML = `<div class="rv-wrap"><header class="rv-head"><div><h1>${esc(title)}</h1><div class="rv-sub">${esc(text)}</div></div></header></div>`; }
+(async function main() {
+  document.body.classList.add('rider');
+  const root = document.getElementById('riderview');
+  const tint = st => { const a = st && st.branding && st.branding.accent; if (a && /^#[0-9a-fA-F]{6}$/.test(a)) { document.documentElement.style.setProperty('--accent', a); document.documentElement.style.setProperty('--route', a); } };
+  const open = (entry, back) => { const { course, ring, settings } = entry; tint(settings); root.innerHTML = riderCourseHTML(course, ring, settings, { back }); riderBindZoom(root); document.title = course.name + ' · course plan'; const b = root.querySelector('#rvBack'); if (b) b.onclick = () => board(entry._list || []); window.scrollTo(0, 0); };
+  const board = list => { const settings = list.length ? list[0].settings : { facility: '' }; tint(settings); const cs = list.map(e => Object.assign({}, e.course, { _ring: e.ring })); root.innerHTML = riderListHTML(cs, settings); root.querySelectorAll('.rv-item').forEach(b => b.onclick = () => open(list.find(e => e.course.id === b.dataset.id), true)); document.title = (settings.facility || 'Courses') + ' · courses'; };
+  const withList = list => { list.forEach(e => e._list = list); return list; };
+  const h = decodeURIComponent(location.hash || '').replace(/^#/, '');
+  const pm = h.match(/^(c|b)=([A-Za-z0-9_\-]+)$/);
+  try {
+    if (pm) { // locked payload links
+      const payload = await SharePayload.decode(pm[2]);
+      const list = withList(pm[1] === 'b' ? payload.map(p => SharePayload.unpack(p)) : [SharePayload.unpack(payload)]);
+      if (list.length === 1) open(list[0], false); else board(list);
+      return;
+    }
+    // live links — read the board published next to this page.
+    // GitHub Pages rebuilds the public site in a background job that can lag minutes behind
+    // (and is throttled), so on *.github.io we ALSO read the raw file straight from the
+    // repository and use whichever copy is newest.
+    let bd = null;
+    const srcs = ['board.json'];
+    const gh = location.hostname.match(/^([A-Za-z0-9-]+)\.github\.io$/);
+    const seg = location.pathname.split('/').filter(Boolean)[0];
+    if (gh && seg) { srcs.unshift(`https://raw.githubusercontent.com/${gh[1]}/${seg}/main/board.json`, `https://raw.githubusercontent.com/${gh[1]}/${seg}/master/board.json`); }
+    for (const u of srcs) {
+      try { const r = await fetch(u + '?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) { const j = await r.json(); if (j && (!bd || (j.updated || 0) > (bd.updated || 0))) bd = j; } } catch (e) {}
+      if (bd && u === srcs[0]) break; // raw copy is authoritative when it loads
+    }
+    if (!bd) { showError('No courses here yet', location.protocol === 'file:' ? 'This page reads board.json from the website it is hosted on. Open it from your site, or use a link that carries the course inside it.' : 'The rider board has not been published yet — check back soon.'); return; }
+    const list = withList((bd.courses || []).map(p => { const e = SharePayload.unpack(p); if (!e.settings.facility && bd.fac) e.settings.facility = bd.fac; if (bd.brand) e.settings.branding = bd.brand; return e; }));
+    if (!h || h === 'riders') { board(list); return; }
+    const hit = list.find(e => e.course.id === h);
+    if (hit) open(hit, list.length > 1);
+    else { board(list); if (list.length) toast('That course is no longer published — here is the current list'); else showError('No courses published', 'Nothing is on the rider board right now.'); }
+  } catch (e) { console.error(e); showError('This link could not be opened', 'The course data could not be read. ' + (e.message || '')); }
+})();
+</script></body></html>
