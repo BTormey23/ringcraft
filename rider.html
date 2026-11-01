@@ -1,8 +1,18 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>Course plan</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2E5A43" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1C2320" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232E5A43'/%3E%3Cpath d='M 83.26,59.07 A 34,34 0 1 0 60.51,84.34' fill='none' stroke='%23A8D4BA' stroke-width='6'/%3E%3Cg stroke='%23FFFFFF' fill='none'%3E%3Cline x1='40' y1='35' x2='40' y2='68' stroke-width='8.5'/%3E%3Cpath d='M40,39.5 H51.5 A9.75,9.75 0 0 1 51.5,59 H40' stroke-width='8.5'/%3E%3Cline x1='45' y1='59' x2='81' y2='79.6' stroke-width='8.5'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="RingCraft">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
+@media (display-mode: standalone){.topbar{padding-top:calc(10px + env(safe-area-inset-top))}body.rider .rv-wrap{padding-top:calc(14px + env(safe-area-inset-top))}body{padding-bottom:env(safe-area-inset-bottom)}}
 :root{
   --ground:#ECE7DB; --paper:#FBFAF6; --paper-2:#F3F0E8; --line:#D8D2C4; --line-2:#C4BDAD;
   --ink:#1E2A22; --ink-2:#4E5A52; --ink-3:#7D877F;
@@ -385,8 +395,8 @@ const JUMP_TYPES = {
 const SPREAD_TYPES = new Set(['oxer', 'swedish', 'triple', 'liverpool']);
 
 // ---------- Product identity ----------
-const APP_NAME = 'Ringcraft';
-const APP_VERSION = 'v14';
+const APP_NAME = 'RingCraft';
+const APP_VERSION = 'v16';
 const APP_CREDIT = 'A RippleStone Production by Brian Tormey';
 const FEEDBACK_EMAIL = 'brian@briantormey.com';
 const branding = () => (typeof App !== 'undefined' && App.data && App.data.settings && App.data.settings.branding) || { logo: '', accent: '' };
@@ -1264,4 +1274,5 @@ function showError(title, text) { document.getElementById('riderview').innerHTML
     else { board(list); if (list.length) toast('That course is no longer published — here is the current list'); else showError('No courses published', 'Nothing is on the rider board right now.'); }
   } catch (e) { console.error(e); showError('This link could not be opened', 'The course data could not be read. ' + (e.message || '')); }
 })();
-</script></body></html>
+</script><script>if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}</script>
+</body></html>
