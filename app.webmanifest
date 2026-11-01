@@ -1,0 +1,32 @@
+{
+  "name": "RingCraft Course Designer",
+  "short_name": "RingCraft",
+  "description": "Stride-correct hunter, jumper and equitation course design — plans, printing, rider boards and QR sharing.",
+  "id": "./",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ECE7DB",
+  "theme_color": "#2E5A43",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
