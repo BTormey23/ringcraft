@@ -294,6 +294,7 @@ table.ledger tr.over td{color:var(--rail)}
 .rv-item small{color:var(--ink-2)}
 .rv-order{font-family:var(--font-mono);font-weight:600;min-width:28px;text-align:center;border:1.5px solid var(--ink);border-radius:4px;padding:2px 4px}
 .rv-order:empty{display:none}
+.rv-past{margin-top:6px}.rv-past summary{cursor:pointer;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600;padding:6px 0}.rv-past[open] summary{margin-bottom:4px}
 .rv-chev{font-size:22px;color:var(--ink-3)}
 .ps-qr{text-align:center;line-height:0;margin-left:.12in}
 .ps-qr small{display:block;line-height:1.2;font-size:6.5pt;color:#666;margin-top:2px}
@@ -396,7 +397,7 @@ const SPREAD_TYPES = new Set(['oxer', 'swedish', 'triple', 'liverpool']);
 
 // ---------- Product identity ----------
 const APP_NAME = 'RingCraft';
-const APP_VERSION = 'v16';
+const APP_VERSION = 'v17';
 const APP_CREDIT = 'A RippleStone Production by Brian Tormey';
 const FEEDBACK_EMAIL = 'brian@briantormey.com';
 const branding = () => (typeof App !== 'undefined' && App.data && App.data.settings && App.data.settings.branding) || { logo: '', accent: '' };
@@ -1171,18 +1172,29 @@ function riderCourseHTML(c, ring, settings, opts = {}) {
     <div class="rv-zoom"><button class="btn sm" id="rvOut">−</button><span class="hint">pinch or use buttons to zoom</span><button class="btn sm" id="rvIn">+</button><button class="btn sm" id="rvFit">Fit</button></div>
     <div class="rv-stats">${st ? `<span class="chip">${isMetric(U) ? Math.round(st.lengthM) + ' m' : Math.round(st.lengthFt) + "'"} track</span>` : ''}${st && st.timeAllowed ? `<span class="chip">TA ${fmtSecs(st.timeAllowed)} · limit ${fmtSecs(st.timeLimit)}</span>` : ''}<span class="chip">${fmtStride(c.stride, U)} stride</span>${c.disc === 'jumper' && nums.some(n => n.fence.jo) ? `<span class="chip bad">Jump-off: ${nums.filter(n => n.fence.jo).map(n => n.label).join(' – ')}</span>` : ''}</div>
     <table class="rv-table"><thead><tr><th>#</th><th>Jump</th><th>Height</th><th>To next</th></tr></thead><tbody>${nums.map(({ label, fence: f, idx }) => { const nx = c.fences[idx + 1]; const rel = nx && isActive(nx) ? relatedDistance(f, nx, c.stride) : null; return `<tr><td class="n">${label}</td><td>${esc(f.name)}<br><small>${JUMP_TYPES[f.type]?.label}${f.trot ? ' · trot' : ''}${f.note ? ' — ' + esc(f.note) : ''}</small></td><td class="mono">${fmtHeight(f.height, U)}${SPREAD_TYPES.has(f.type) ? '<br><small>× ' + fmtHeight(f.spread || defaultSpread(f.type, f.height), U) + '</small>' : ''}</td><td class="mono">${rel ? (rel.rounded < 1 ? 'bounce' : rel.rounded + (rel.kind === 'bend' ? ' bend' : ' str')) + '<br><small>' + fmtDist(rel.d, U) + '</small>' : ''}</td></tr>`; }).join('')}</tbody></table>
-    ${c.notes ? `<div class="rv-notes"><b>Notes</b><br>${esc(c.notes)}</div>` : ''}<footer class="rv-foot">${esc(c.footer || (settings.facility || '') + ' · ' + APP_NAME)}${c.designer ? ' · Course designer: ' + esc(c.designer) : ''}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
+    ${c.notes ? `<div class="rv-notes"><b>Notes</b><br>${esc(c.notes)}</div>` : ''}<footer class="rv-foot">${esc(c.footer || ((settings.facility && settings.facility !== APP_NAME) ? settings.facility + ' · ' + APP_NAME : APP_NAME))}${c.designer ? ' · Course designer: ' + esc(c.designer) : ''}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
 }
 function riderBindZoom(root) {
   let zoom = 1; const plan = $('#rvPlan', root); if (!plan) return; const svg = $('svg', plan); const apply = () => { svg.style.width = (100 * zoom) + '%'; svg.style.height = 'auto'; };
   $('#rvIn', root).onclick = () => { zoom = Math.min(4, zoom * 1.35); apply(); }; $('#rvOut', root).onclick = () => { zoom = Math.max(1, zoom / 1.35); apply(); }; $('#rvFit', root).onclick = () => { zoom = 1; apply(); plan.scrollTo(0, 0); };
   apply();
 }
+
+// ---------- Rider board ordering: today & upcoming first, past collapsed ----------
+function rvToday() { const t = new Date(); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
+function rvGroups(byDate) {
+  const today = rvToday(); const keys = Object.keys(byDate);
+  const cur = keys.filter(k => k === 'Undated' || k >= today).sort((a, b) => a === 'Undated' ? 1 : b === 'Undated' ? -1 : a.localeCompare(b));
+  const past = keys.filter(k => k !== 'Undated' && k < today).sort().reverse();
+  const nPast = past.reduce((n, k) => n + byDate[k].length, 0);
+  return cur.map(k => [k, byDate[k], false, false, 0]).concat(past.map((k, i) => [k, byDate[k], true, i === 0, nPast]));
+}
+function rvLabel(d) { if (d === 'Undated') return 'Undated'; return (d === rvToday() ? 'Today · ' : '') + fmtDate(d); }
 function riderListHTML(courses, settings, opts = {}) {
   const byDate = {}; courses.forEach(c => (byDate[c.date || 'Undated'] = byDate[c.date || 'Undated'] || []).push(c));
   return `<div class="rv-wrap"><header class="rv-head"><div>${settings.branding && settings.branding.logo ? `<img class="rv-logo" src="${settings.branding.logo}" alt="">` : ''}<div class="rv-fac">${esc(settings.facility || '')}</div><h1>Courses</h1><div class="rv-sub">Tap a class to open its course plan</div></div>${opts.designerButton ? '<button class="btn sm" id="rvDesigner">Open designer</button>' : ''}</header>
-    ${courses.length ? Object.entries(byDate).map(([d, cs]) => `<h3 class="rv-date">${esc(d === 'Undated' ? d : fmtDate(d))}</h3><div class="rv-list">${cs.map(c => { const ring = c._ring; const lvl = (LEVELS[c.disc] || []).find(l => l.id === c.levelId); return `<button class="rv-item" data-id="${c.id}"><span class="rv-order">${esc(c.showOrder || '')}</span><span><b>${esc(c.name)}</b><br><small>${[c.className, (DISCIPLINES[c.disc]?.label || '') + (lvl ? ' · ' + lvl.label : ''), fmtHeight(c.height, courseUnits(c)), ring ? ring.name : '', c.time ? (fmtDate(c.date, c.time).split(' · ')[1] || '') : ''].filter(Boolean).map(esc).join(' · ')}</small></span><span class="rv-chev">›</span></button>`; }).join('')}</div>`).join('') : '<div class="empty">No courses are published yet.</div>'}
-    <footer class="rv-foot">${esc(settings.facility || '')} · ${APP_NAME}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
+    ${courses.length ? rvGroups(byDate).map(([d, cs, past, first, nPast]) => `${first ? `<details class="rv-past"><summary>Earlier courses (${nPast})</summary>` : ''}<h3 class="rv-date">${esc(rvLabel(d))}</h3><div class="rv-list">${cs.map(c => { const ring = c._ring; const lvl = (LEVELS[c.disc] || []).find(l => l.id === c.levelId); return `<button class="rv-item" data-id="${c.id}"><span class="rv-order">${esc(c.showOrder || '')}</span><span><b>${esc(c.name)}</b><br><small>${[c.className, (DISCIPLINES[c.disc]?.label || '') + (lvl ? ' · ' + lvl.label : ''), fmtHeight(c.height, courseUnits(c)), ring ? ring.name : '', c.time ? (fmtDate(c.date, c.time).split(' · ')[1] || '') : ''].filter(Boolean).map(esc).join(' · ')}</small></span><span class="rv-chev">›</span></button>`; }).join('')}</div>`).join('') + (rvGroups(byDate).some(g => g[2]) ? '</details>' : '') : '<div class=\"empty\">No courses are published yet.</div>'}
+    <footer class="rv-foot">${(settings.facility && settings.facility !== APP_NAME) ? esc(settings.facility) + ' · ' : ''}${APP_NAME}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
 }
 
 // ---------- Share payload: everything a rider page needs, compressed into the URL hash ----------
