@@ -133,6 +133,41 @@ svg.plan .fence.inactive.selected{opacity:.7}
 
 
 @media (max-width:860px){.hero{grid-template-columns:1fr;gap:30px;padding:30px 0 44px}.hero h1{font-size:34px}.steps{grid-template-columns:1fr;gap:22px;padding:34px 0}.grid{grid-template-columns:1fr}.wl{grid-template-columns:1fr;padding:26px}}
+
+.show{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center;padding:54px 0}
+.show h2,.why h2,.faq h2{font-size:30px;margin-bottom:8px}
+.show .lead,.why .lead{color:var(--ink-2);margin:0 0 22px;max-width:56ch}
+.show figure{margin:0}.show figcaption{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-3);margin-top:8px;letter-spacing:.04em}
+.paper{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:3px;overflow:hidden;line-height:0}
+.paper img{width:100%;height:auto;display:block}
+.phones{display:flex;gap:18px;justify-content:center;align-items:flex-start}
+.phone{width:200px;border-radius:28px;background:#111;padding:9px;box-shadow:var(--shadow);line-height:0}
+.phone img{width:100%;border-radius:20px;display:block}
+.phone.lift{margin-top:36px}
+.ticks{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:9px}
+.ticks li{padding-left:24px;position:relative;color:var(--ink-2);font-size:15px}
+.ticks li::before{content:"";position:absolute;left:2px;top:.55em;width:10px;height:10px;border:1.5px solid var(--accent);border-radius:50%}
+.why{padding:54px 0}
+.diff{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:34px}
+.diff div{border-top:2px solid var(--accent);padding-top:12px}
+.diff b{display:block;font-family:var(--font-display);font-size:16.5px;margin-bottom:6px;line-height:1.25}
+.diff p{margin:0;color:var(--ink-2);font-size:14px}
+.cmp{width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:14.5px}
+.cmp th,.cmp td{padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.cmp th{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;background:var(--paper-2)}
+.cmp td:first-child{color:var(--ink-2);width:30%}
+.cmp td.us{color:var(--ink);font-weight:500}
+.cmp td.us::before{content:"\2713\00a0\00a0";color:var(--accent);font-weight:700}
+.cmp .src{font-size:12px;color:var(--ink-3)}
+.faq{padding:20px 0 58px}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq summary{cursor:pointer;font-family:var(--font-display);font-size:18px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font-family:var(--font-mono);color:var(--accent)}
+.faq details[open] summary::after{content:"\2212"}
+.faq p{color:var(--ink-2);margin:10px 0 0;max-width:72ch}
+.proof{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--ink-2);margin-top:22px}
+.proof img{height:44px;width:auto;border-radius:3px;background:#fff;padding:2px 4px;border:1px solid var(--line)}
+@media (max-width:860px){.show{grid-template-columns:1fr;gap:26px;padding:38px 0}.diff{grid-template-columns:1fr 1fr}.phone{width:42vw}.cmp td:first-child{width:auto}.cmp{font-size:13.5px}.cmp th,.cmp td{padding:9px 10px}}
 </style></head><body>
 <div class="wrap">
   <header class="topbar">
@@ -147,7 +182,7 @@ svg.plan .fence.inactive.selected{opacity:.7}
       <div class="ctas">
         <a class="btn primary" href="app.html">Open the designer</a>
         <a class="btn" href="rider.html#riders">See a live course board</a>
-        <span class="note">free · runs in your browser · installs like an app · works offline</span>
+        <span class="note">free during early access · runs in your browser · installs like an app · works offline</span>
       </div>
     </div>
     <figure class="sheet" style="margin:0">
@@ -246,6 +281,19 @@ svg.plan .fence.inactive.selected{opacity:.7}
 </div>
 <hr class="rule">
 <div class="wrap">
+<section class="show">
+    <figure><div class="paper"><img src="shots/print-sheet.jpg" alt="RingCraft rider plan: an 8.5×11 sheet with the course plan, stride distances, fence table and time-allowed details" loading="lazy"></div>
+      <figcaption>RIDER PLAN · LETTER · PRINTED STRAIGHT FROM THE DESIGNER</figcaption></figure>
+    <div>
+      <h2>From the designer to the in-gate</h2>
+      <p class="lead">Every course comes out as a crisp sheet for the in-gate board — and as a live page on every rider's phone. Same plan, same distances, always the current version.</p>
+      <div class="phones"><div class="phone"><img src="shots/phone-board.jpg" alt="Rider board on a phone listing today's published courses" loading="lazy"></div><div class="phone lift"><img src="shots/phone-course.jpg" alt="A jumper course on a phone with zoomable plan, time allowed and jump-off" loading="lazy"></div></div>
+      <ul class="ticks"><li>Rider, jump-crew and judge sheets — batch-print a whole show day.</li><li>One QR poster at the in-gate opens every published course.</li><li>Edit a track at 7 a.m.; riders see it on refresh.</li></ul>
+    </div>
+  </section>
+</div>
+<hr class="rule">
+<div class="wrap">
   <section class="steps">
     <div class="step"><div class="n">01 — GENERATE</div><h3>Pick the ring, the level, the type</h3><p>RingCraft deals a stride-correct course from your actual jump inventory — hunter classics, jumper tracks with jump-offs, equitation tests — distances computed for the stride you school.</p></div>
     <div class="step"><div class="n">02 — REFINE</div><h3>Drag until it rides right</h3><p>Move and rotate fences, bend the track by hand, measure any line. Distances re-walk themselves live, and rulebook checks flag anything a steward would.</p></div>
@@ -266,6 +314,28 @@ svg.plan .fence.inactive.selected{opacity:.7}
       <div class="card"><span class="tag">Yours</span><h3>Your stable, your brand</h3><p>Name, logo and colors flow through the app, the printed plans and the rider pages. Your barn's courses live on your own site.</p></div>
     </div>
   </section>
+<section class="why">
+    <h2>Why RingCraft</h2>
+    <p class="lead">Most course-design software is built for FEI show jumping and sold by subscription. RingCraft started in a US hunter barn.</p>
+    <div class="diff">
+      <div><b>Courses that build themselves</b><p>Pick ring, level and course type — get a stride-correct track in seconds, then refine it.</p></div>
+      <div><b>Built for the hunter ring, too</b><p>Hunter, equitation and jumper, with distances in strides and feet — not metres-first.</p></div>
+      <div><b>Plan to phone at the in-gate</b><p>A live rider board and QR codes. No PDFs to email, no app for riders to install.</p></div>
+      <div><b>Your barn's name on every course</b><p>Your logo and colors on the app, printed plans and rider pages — on your own site.</p></div>
+      <div><b>Works with no signal</b><p>Installs like an app and opens offline, so the back barn is covered.</p></div>
+    </div>
+    <table class="cmp">
+      <thead><tr><th></th><th>RingCraft</th><th>Typical course-design software</th></tr></thead>
+      <tbody>
+        <tr><td>Starting point</td><td class="us">Auto-generated, stride-correct course</td><td>Blank arena; you place every fence</td></tr>
+        <tr><td>Disciplines</td><td class="us">Hunter, equitation &amp; jumper</td><td>Show jumping, FEI rules first</td></tr>
+        <tr><td>Getting it to riders</td><td class="us">Live rider board + QR poster</td><td>Export a PDF and send it around</td></tr>
+        <tr><td>Branding</td><td class="us">Your name, logo, colors and site</td><td>A logo on the printout, at most</td></tr>
+        <tr><td>Phones &amp; barn Wi-Fi</td><td class="us">Installs on any phone, works offline</td><td>Desktop-first; offline often a paid tier</td></tr>
+        <tr><td>Cost</td><td class="us">Free during early access</td><td>Commonly $70–$270 a year <span class="src">(published 2025–26 pricing)</span></td></tr>
+      </tbody>
+    </table>
+  </section>
   <section class="wl">
     <div>
       <h2>Run RingCraft at your barn</h2>
@@ -275,6 +345,15 @@ svg.plan .fence.inactive.selected{opacity:.7}
     <div class="chiprow"><span class="chip">Your logo</span><span class="chip">Your colors</span><span class="chip">Your domain</span><span class="chip">Your data</span><span class="chip">Free hosting</span></div>
   </section>
 </div>
+<div class="wrap"><section class="faq">
+  <h2>Questions</h2>
+  <details><summary>Do riders need an account or an app?</summary><p>No. Riders scan the QR code (or tap the link you text) and the course opens in their phone's browser. Nothing to install, nothing to sign in to.</p></details>
+  <details><summary>Where do my courses live?</summary><p>On your stable's own website — a free GitHub Pages site that RingCraft sets up for you. Course plans published to riders are public by design; your access key stays in your own browser.</p></details>
+  <details><summary>Can I print?</summary><p>Yes — rider, jump-crew and judge sheets on US Letter, plus an in-gate QR poster. Print straight from the browser or save as PDF; plans are drawn as vectors, so they stay crisp on any printer, including black-and-white.</p></details>
+  <details><summary>Feet or metres? Hunters or jumpers?</summary><p>Both. Each course picks its units (hunters default to feet, jumpers to metres), and the generator knows hunter, equitation and jumper course types, heights and strides — from cross-rails to 1.40 m.</p></details>
+  <details><summary>Does it work at the barn with bad reception?</summary><p>Add RingCraft to your home screen and it opens offline with the last courses you loaded. Edits sync when you're back online.</p></details>
+  <details><summary>What does it cost?</summary><p>RingCraft is free during early access. Founding stables keep their own site and their own data either way.</p></details>
+</section></div>
 <footer><div class="wrap foot">
   <span>RingCraft — A RippleStone Production by Brian Tormey</span>
   <nav class="links"><a href="app.html">Designer</a><a href="rider.html#riders">Rider board</a><a href="mailto:brian@briantormey.com?subject=RingCraft%20feature%20request">Suggest a feature</a></nav>
