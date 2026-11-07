@@ -1,7 +1,7 @@
 /* RingCraft service worker — network-first so app updates arrive immediately;
    cached copies serve only when offline. Cross-origin requests (GitHub API,
    raw.githubusercontent, Google Fonts) are never intercepted. */
-const CACHE = 'ringcraft-v16';
+const CACHE = 'ringcraft-v17';
 const SHELL = ['./', './index.html', './app.html', './rider.html', './manifest.webmanifest', './app.webmanifest', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.allSettled(SHELL.map(u => c.add(u)))).catch(() => {}).then(() => self.skipWaiting()));
