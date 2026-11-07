@@ -300,10 +300,34 @@ table.ledger tr.over td{color:var(--rail)}
 .rv-item small{color:var(--ink-2)}
 .rv-order{font-family:var(--font-mono);font-weight:600;min-width:28px;text-align:center;border:1.5px solid var(--ink);border-radius:4px;padding:2px 4px}
 .rv-order:empty{display:none}
+.rv-past{margin-top:6px}.rv-past summary{cursor:pointer;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600;padding:6px 0}.rv-past[open] summary{margin-bottom:4px}
 .rv-chev{font-size:22px;color:var(--ink-3)}
 .ps-qr{text-align:center;line-height:0;margin-left:.12in}
 .ps-qr small{display:block;line-height:1.2;font-size:6.5pt;color:#666;margin-top:2px}
 
+
+/* ---------- In-gate QR poster ---------- */
+.poster{width:7.5in;height:10in;box-sizing:border-box;border:1.5pt solid #1E2A22;padding:.5in .45in;display:flex;flex-direction:column;align-items:center;text-align:center;color:#111;background:#fff;position:relative;font-family:var(--font-ui)}
+.poster::after{content:"";position:absolute;inset:5pt;border:.4pt solid #8E877A;pointer-events:none}
+.poster .p-logo{height:1.15in;max-width:3in;object-fit:contain;margin-bottom:.12in}
+.poster .p-fac{font-family:var(--font-display);font-size:24pt;font-weight:600;letter-spacing:.01em}
+.poster .p-kick{font-size:10pt;letter-spacing:.22em;text-transform:uppercase;color:#555;margin:.08in 0 .28in}
+.poster h1{font-family:var(--font-display);font-size:40pt;line-height:1.05;margin:0 0 .1in}
+.poster .p-sub{font-size:14pt;color:#333;margin:0 0 .3in}
+.poster .p-qr{padding:.14in;border:1pt solid #1E2A22;border-radius:6pt;line-height:0;background:#fff}
+.poster .p-url{font-family:var(--font-mono);font-size:10.5pt;color:#333;margin-top:.16in;word-break:break-all}
+.poster .p-steps{display:flex;gap:.35in;margin-top:.32in;font-size:11pt;color:#222}
+.poster .p-steps b{display:block;font-family:var(--font-mono);color:#2E5A43;font-size:10pt;letter-spacing:.06em}
+.poster .p-foot{margin-top:auto;font-size:8.5pt;color:#777;letter-spacing:.04em}
+/* ---------- Launch checklist ---------- */
+.launch{border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:14px;background:var(--paper-2)}
+.launch .bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin:6px 0 10px}.launch .bar i{display:block;height:100%;background:var(--accent)}
+.launch ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.launch li{display:grid;grid-template-columns:20px 1fr auto;gap:8px;align-items:start;font-size:12.5px;line-height:1.35}
+.launch li .ck{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-2);display:inline-flex;align-items:center;justify-content:center;font-size:10px;margin-top:1px}
+.launch li.done .ck{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.launch li.done span.t{color:var(--ink-3)}
+.launch li small{display:block;color:var(--ink-3)}
 /* ---------- Print ---------- */
 #printsheet{display:none}
 @media print{
@@ -456,6 +480,7 @@ table.ledger tr.over td{color:var(--rail)}
       </div>
 
       <div class="panel" id="tab-settings">
+        <div id="launchBox"></div>
         <h3>Stable &amp; branding</h3>
         <div class="field"><label>Stable / facility name (shows in the app, on plans and rider pages)</label><input id="setFacility" type="text"></div>
         <div class="row" style="align-items:center;gap:12px;margin-bottom:10px">
@@ -613,7 +638,7 @@ table.ledger tr.over td{color:var(--rail)}
   <div style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;margin-bottom:14px">
     <div><div class="field"><label>Rider link</label><div style="display:flex;gap:6px"><input id="shUrl" type="text" readonly><button class="btn sm" id="shCopy">Copy</button></div></div>
       <p class="hint" style="margin:0" id="shMode"></p><p class="hint" style="margin:4px 0 0" id="shLen"></p>
-      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" id="shBoard" title="One link that opens the list of every published course">Copy board link (all courses)</button><button class="btn sm" id="shSnap" title="A link that carries the whole course inside it and never changes, even if you edit the course later">Copy locked snapshot link</button></div></div>
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" id="shBoard" title="One link that opens the list of every published course">Copy board link (all courses)</button><button class="btn sm" id="shPoster" title="An 8.5×11 poster with a big QR code to your rider board — tape it up at the in-gate">Print in-gate QR poster</button><button class="btn sm" id="shSnap" title="A link that carries the whole course inside it and never changes, even if you edit the course later">Copy locked snapshot link</button></div></div>
     <div style="text-align:center"><div id="shQr" style="background:#fff;padding:6px;border-radius:6px;border:1px solid var(--line);display:inline-block;line-height:0"></div><br><button class="btn sm" id="shQrDl" style="margin-top:6px">Download QR</button></div>
   </div>
   <p class="hint" style="margin:0 0 8px">Or hand riders a locked copy — no link needed:</p>
@@ -678,7 +703,7 @@ const SPREAD_TYPES = new Set(['oxer', 'swedish', 'triple', 'liverpool']);
 
 // ---------- Product identity ----------
 const APP_NAME = 'RingCraft';
-const APP_VERSION = 'v16';
+const APP_VERSION = 'v17';
 const APP_CREDIT = 'A RippleStone Production by Brian Tormey';
 const FEEDBACK_EMAIL = 'brian@briantormey.com';
 const branding = () => (typeof App !== 'undefined' && App.data && App.data.settings && App.data.settings.branding) || { logo: '', accent: '' };
@@ -963,7 +988,9 @@ const Store = {
     if (this.isWeb()) {
       // Web edition: GitHub is the shared store (token on this device), the site's own data.json is the read-only copy.
       if (typeof GH !== 'undefined' && GH.ok()) {
-        try { const f = await GH.getFile('data.json'); if (f) remote = JSON.parse(f.text); this.mode = 'github'; } catch (e) { console.warn(e); this.mode = 'github-error'; this._ghError = e; }
+        try { const f = await GH.getFile('data.json'); if (f) remote = JSON.parse(f.text); this.mode = 'github'; } catch (e) { console.warn(e); this.mode = 'github-error'; this._ghError = e;
+          // GitHub API unreachable or token rejected: fall back to the site's public copy so real courses still load (never start from empty defaults)
+          try { const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) remote = await r.json(); } catch (e2) {} }
       } else if (typeof onWebsite === 'function' && onWebsite()) {
         try { const r = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' }); if (r.ok) remote = await r.json(); } catch (e) {}
         this.mode = 'local';
@@ -1531,18 +1558,29 @@ function riderCourseHTML(c, ring, settings, opts = {}) {
     <div class="rv-zoom"><button class="btn sm" id="rvOut">−</button><span class="hint">pinch or use buttons to zoom</span><button class="btn sm" id="rvIn">+</button><button class="btn sm" id="rvFit">Fit</button></div>
     <div class="rv-stats">${st ? `<span class="chip">${isMetric(U) ? Math.round(st.lengthM) + ' m' : Math.round(st.lengthFt) + "'"} track</span>` : ''}${st && st.timeAllowed ? `<span class="chip">TA ${fmtSecs(st.timeAllowed)} · limit ${fmtSecs(st.timeLimit)}</span>` : ''}<span class="chip">${fmtStride(c.stride, U)} stride</span>${c.disc === 'jumper' && nums.some(n => n.fence.jo) ? `<span class="chip bad">Jump-off: ${nums.filter(n => n.fence.jo).map(n => n.label).join(' – ')}</span>` : ''}</div>
     <table class="rv-table"><thead><tr><th>#</th><th>Jump</th><th>Height</th><th>To next</th></tr></thead><tbody>${nums.map(({ label, fence: f, idx }) => { const nx = c.fences[idx + 1]; const rel = nx && isActive(nx) ? relatedDistance(f, nx, c.stride) : null; return `<tr><td class="n">${label}</td><td>${esc(f.name)}<br><small>${JUMP_TYPES[f.type]?.label}${f.trot ? ' · trot' : ''}${f.note ? ' — ' + esc(f.note) : ''}</small></td><td class="mono">${fmtHeight(f.height, U)}${SPREAD_TYPES.has(f.type) ? '<br><small>× ' + fmtHeight(f.spread || defaultSpread(f.type, f.height), U) + '</small>' : ''}</td><td class="mono">${rel ? (rel.rounded < 1 ? 'bounce' : rel.rounded + (rel.kind === 'bend' ? ' bend' : ' str')) + '<br><small>' + fmtDist(rel.d, U) + '</small>' : ''}</td></tr>`; }).join('')}</tbody></table>
-    ${c.notes ? `<div class="rv-notes"><b>Notes</b><br>${esc(c.notes)}</div>` : ''}<footer class="rv-foot">${esc(c.footer || (settings.facility || '') + ' · ' + APP_NAME)}${c.designer ? ' · Course designer: ' + esc(c.designer) : ''}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
+    ${c.notes ? `<div class="rv-notes"><b>Notes</b><br>${esc(c.notes)}</div>` : ''}<footer class="rv-foot">${esc(c.footer || ((settings.facility && settings.facility !== APP_NAME) ? settings.facility + ' · ' + APP_NAME : APP_NAME))}${c.designer ? ' · Course designer: ' + esc(c.designer) : ''}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
 }
 function riderBindZoom(root) {
   let zoom = 1; const plan = $('#rvPlan', root); if (!plan) return; const svg = $('svg', plan); const apply = () => { svg.style.width = (100 * zoom) + '%'; svg.style.height = 'auto'; };
   $('#rvIn', root).onclick = () => { zoom = Math.min(4, zoom * 1.35); apply(); }; $('#rvOut', root).onclick = () => { zoom = Math.max(1, zoom / 1.35); apply(); }; $('#rvFit', root).onclick = () => { zoom = 1; apply(); plan.scrollTo(0, 0); };
   apply();
 }
+
+// ---------- Rider board ordering: today & upcoming first, past collapsed ----------
+function rvToday() { const t = new Date(); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
+function rvGroups(byDate) {
+  const today = rvToday(); const keys = Object.keys(byDate);
+  const cur = keys.filter(k => k === 'Undated' || k >= today).sort((a, b) => a === 'Undated' ? 1 : b === 'Undated' ? -1 : a.localeCompare(b));
+  const past = keys.filter(k => k !== 'Undated' && k < today).sort().reverse();
+  const nPast = past.reduce((n, k) => n + byDate[k].length, 0);
+  return cur.map(k => [k, byDate[k], false, false, 0]).concat(past.map((k, i) => [k, byDate[k], true, i === 0, nPast]));
+}
+function rvLabel(d) { if (d === 'Undated') return 'Undated'; return (d === rvToday() ? 'Today · ' : '') + fmtDate(d); }
 function riderListHTML(courses, settings, opts = {}) {
   const byDate = {}; courses.forEach(c => (byDate[c.date || 'Undated'] = byDate[c.date || 'Undated'] || []).push(c));
   return `<div class="rv-wrap"><header class="rv-head"><div>${settings.branding && settings.branding.logo ? `<img class="rv-logo" src="${settings.branding.logo}" alt="">` : ''}<div class="rv-fac">${esc(settings.facility || '')}</div><h1>Courses</h1><div class="rv-sub">Tap a class to open its course plan</div></div>${opts.designerButton ? '<button class="btn sm" id="rvDesigner">Open designer</button>' : ''}</header>
-    ${courses.length ? Object.entries(byDate).map(([d, cs]) => `<h3 class="rv-date">${esc(d === 'Undated' ? d : fmtDate(d))}</h3><div class="rv-list">${cs.map(c => { const ring = c._ring; const lvl = (LEVELS[c.disc] || []).find(l => l.id === c.levelId); return `<button class="rv-item" data-id="${c.id}"><span class="rv-order">${esc(c.showOrder || '')}</span><span><b>${esc(c.name)}</b><br><small>${[c.className, (DISCIPLINES[c.disc]?.label || '') + (lvl ? ' · ' + lvl.label : ''), fmtHeight(c.height, courseUnits(c)), ring ? ring.name : '', c.time ? (fmtDate(c.date, c.time).split(' · ')[1] || '') : ''].filter(Boolean).map(esc).join(' · ')}</small></span><span class="rv-chev">›</span></button>`; }).join('')}</div>`).join('') : '<div class="empty">No courses are published yet.</div>'}
-    <footer class="rv-foot">${esc(settings.facility || '')} · ${APP_NAME}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
+    ${courses.length ? rvGroups(byDate).map(([d, cs, past, first, nPast]) => `${first ? `<details class="rv-past"><summary>Earlier courses (${nPast})</summary>` : ''}<h3 class="rv-date">${esc(rvLabel(d))}</h3><div class="rv-list">${cs.map(c => { const ring = c._ring; const lvl = (LEVELS[c.disc] || []).find(l => l.id === c.levelId); return `<button class="rv-item" data-id="${c.id}"><span class="rv-order">${esc(c.showOrder || '')}</span><span><b>${esc(c.name)}</b><br><small>${[c.className, (DISCIPLINES[c.disc]?.label || '') + (lvl ? ' · ' + lvl.label : ''), fmtHeight(c.height, courseUnits(c)), ring ? ring.name : '', c.time ? (fmtDate(c.date, c.time).split(' · ')[1] || '') : ''].filter(Boolean).map(esc).join(' · ')}</small></span><span class="rv-chev">›</span></button>`; }).join('')}</div>`).join('') + (rvGroups(byDate).some(g => g[2]) ? '</details>' : '') : '<div class=\"empty\">No courses are published yet.</div>'}
+    <footer class="rv-foot">${(settings.facility && settings.facility !== APP_NAME) ? esc(settings.facility) + ' · ' : ''}${APP_NAME}<br><small>${APP_NAME} — ${APP_CREDIT}</small></footer></div>`;
 }
 
 // ---------- Share payload: everything a rider page needs, compressed into the URL hash ----------
@@ -1801,7 +1839,7 @@ function renderSettings() {
   $('#brandLogoClear').style.display = b.logo ? '' : 'none';
   if (document.activeElement !== $('#brandAccent')) $('#brandAccent').value = (b.accent && /^#[0-9a-fA-F]{6}$/.test(b.accent)) ? b.accent : '#2E5A43';
   $('#aboutVersion').textContent = APP_VERSION + ' · ' + (typeof BUILD !== 'undefined' && BUILD === 'web' ? 'website edition' : 'Claude page edition');
-  $('#btnFeature').href = featureMailto(); if (typeof demoBar === 'function') demoBar();
+  $('#btnFeature').href = featureMailto(); if (typeof renderLaunch === 'function') renderLaunch(); if (typeof demoBar === 'function') demoBar();
   if (!$('#setStride').options.length) $('#setStride').innerHTML = strideOptions();
   $('#setStride').value = String(s.stride || 12);
   $('#storageHint').textContent = Store.mode === 'github' ? 'Courses save straight to your GitHub site: they sync to any device where this app is connected with your token, and published courses go live for riders instantly.' : Store.mode === 'github-error' ? 'GitHub connection failed — check the token under Website. Changes are safe in this browser meanwhile.' : Store.mode === 'shared' ? 'Courses, rings and inventory are saved with this page and sync to every device (and anyone you share it with). A copy is also kept in this browser.' : Store.mode === 'readonly' ? 'This is a read-only view. Your changes stay in this browser only.' : 'Saved in this browser. Open the page on claude.ai to sync across devices.';
@@ -2107,7 +2145,7 @@ function printSheetHTML(c, variant) {
           <div class="ps-notes"><span class="lbl">${variant === 'judge' ? 'Faults / notes' : 'Notes'}</span>${variant === 'judge' ? '' : esc(c.notes || '')}</div>
         </div>
       </div></div>
-    <div class="ps-foot"><span>${esc(c.footer || (App.data.settings.facility || '') + ' · ' + APP_NAME)}</span><span>${APP_NAME} · A RippleStone Production</span><span>${variant === 'crew' ? 'Heights as set for this class · poles in feet' : 'Distances measured fence to fence · ' + fmtStride(c.stride, U) + ' stride'} · printed ${new Date().toLocaleDateString()}</span></div>
+    <div class="ps-foot"><span>${esc(c.footer || ((App.data.settings.facility && App.data.settings.facility !== APP_NAME) ? App.data.settings.facility + ' · ' + APP_NAME : APP_NAME))}</span><span>${APP_NAME} · A RippleStone Production</span><span>${variant === 'crew' ? 'Heights as set for this class · poles in feet' : 'Distances measured fence to fence · ' + fmtStride(c.stride, U) + ' stride'} · printed ${new Date().toLocaleDateString()}</span></div>
   </div>`;
 }
 function printTargets() {
@@ -2315,7 +2353,8 @@ function wire() {
   // Measuring tool
   $('#btnMeasure').addEventListener('click', () => { if (!App.course) return; App.mode = App.mode === 'measure' ? 'edit' : 'measure'; if (App.mode !== 'measure') App.measures = []; App.selected = null; renderCanvas(); renderInspector(); });
   $('#btnMeasureClear')?.addEventListener('click', () => { App.measures = []; renderCanvas(); });
-  window.addEventListener('beforeprint', buildPrintSheet);
+  window.addEventListener('beforeprint', () => { if (App._poster) return; buildPrintSheet(); });
+  window.addEventListener('afterprint', () => { App._poster = false; });
   $('#btnPng').addEventListener('click', () => exportPNG().catch(e => { console.warn(e); toast('PNG export failed'); }));
   $('#btnRegen').addEventListener('click', () => regenerate(false)); $('#btnMirror').addEventListener('click', mirrorCourse);
   $('#btnAutoRoute').addEventListener('click', () => { const c = App.course; if (!c) return; snapshot(); autoRouteCourse(c, c.fenceCount || activeFences(c).length || c.fences.length); commit(); toast('Auto-routed ' + activeFences(c).length + ' fences'); });
@@ -2420,6 +2459,48 @@ function riderView(id, fromBoard) {
   $('#rvBack')?.addEventListener('click', () => riderBoard()); riderBindZoom(root);
 }
 
+
+// ---------- Launch checklist & in-gate poster (v17) ----------
+function launchItems() {
+  const s = App.data.settings; const L = s.launch || {}; const today = rvToday();
+  const upcoming = App.data.courses.some(c => c.published && (!c.date || c.date >= today));
+  const standalone = window.matchMedia && matchMedia('(display-mode: standalone)').matches;
+  return [
+    { k: 'name', t: 'Stable name set', d: !!(s.facility && s.facility.trim()), hint: 'Shows on plans and the rider board.' },
+    { k: 'logo', t: 'Logo uploaded', d: !!(s.branding && s.branding.logo), hint: 'Above — PNG with a transparent background.' },
+    { k: 'site', t: 'Website connected', d: GH.ok(), hint: 'Website section below — saves go live for riders.' },
+    { k: 'rings', t: 'Rings match your real arenas', d: !!L.rings, manual: true, hint: 'Rings tab: length, width, in-gate position, footing.' },
+    { k: 'inventory', t: 'Jump inventory matches the barn', d: !!L.inventory, manual: true, hint: 'Jumps tab: what you own and how many — the generator only uses these.' },
+    { k: 'course', t: 'A course published for today or later', d: upcoming, hint: 'Open a course → Published to riders.' },
+    { k: 'poster', t: 'In-gate QR poster printed', d: !!L.poster, action: 'poster', hint: 'Riders scan it to see every published course.' },
+    { k: 'phone', t: 'Installed on your phone', d: !!L.phone || standalone, manual: true, hint: 'Safari/Chrome → Share → Add to Home Screen.' },
+  ];
+}
+function renderLaunch() {
+  const box = $('#launchBox'); if (!box) return;
+  if (BUILD !== 'web' || App.data.settings.demo) { box.innerHTML = ''; return; }
+  const items = launchItems(); const n = items.filter(i => i.d).length; const all = n === items.length;
+  box.innerHTML = `<div class="launch"><b>${all ? 'Ready for riders' : 'Launch checklist'}</b> <span class="hint">${n} of ${items.length}</span><div class="bar"><i style="width:${Math.round(100 * n / items.length)}%"></i></div>
+    ${all ? '<span class="hint">Everything is set. Reprint the poster any time from here or Share.</span> <button class="btn sm" data-la="poster">Print poster</button>' : `<ul>${items.map(i => `<li class="${i.d ? 'done' : ''}"><span class="ck">${i.d ? '✓' : ''}</span><span class="t">${esc(i.t)}${i.d ? '' : `<small>${esc(i.hint)}</small>`}</span>${!i.d && i.action === 'poster' ? '<button class="btn sm" data-la="poster">Print</button>' : !i.d && i.manual ? `<button class="btn sm" data-lk="${i.k}">Done</button>` : ''}</li>`).join('')}</ul>`}</div>`;
+  $$('[data-lk]', box).forEach(b => b.onclick = () => { const s = App.data.settings; s.launch = Object.assign({}, s.launch, { [b.dataset.lk]: true }); commit(); });
+  $$('[data-la=poster]', box).forEach(b => b.onclick = printPoster);
+}
+async function printPoster() {
+  const pub = App.data.courses.filter(c => c.published);
+  if (!pub.length) { toast('Publish at least one course first'); return; }
+  const url = await ensureBoardUrl(pub);
+  if (!url) { toast('Connect your site in Setup → Website first'); return; }
+  const s = App.data.settings; const logo = s.branding && s.branding.logo; const short = url.replace(/^https?:\/\//, '');
+  $('#printsheet').innerHTML = `<div class="poster">${logo ? `<img class="p-logo" src="${logo}" alt="">` : ''}<div class="p-fac">${esc(s.facility || APP_NAME)}</div><div class="p-kick">Rider course board</div>
+    <h1>Today’s courses</h1><p class="p-sub">Point your phone camera at the code — no app, no sign-in.</p>
+    <div class="p-qr">${QR.svg(url, 330, 'M')}</div><div class="p-url">${esc(short)}</div>
+    <div class="p-steps"><span><b>01</b>Scan</span><span><b>02</b>Tap your class</span><span><b>03</b>Walk it with the plan</span></div>
+    <div class="p-foot">Courses update live as they are published · ${APP_NAME}</div></div>`;
+  s.launch = Object.assign({}, s.launch, { poster: true }); Store.markDirty(); renderLaunch();
+  if (BUILD !== 'web') { toast('Poster printing works on your RingCraft website'); return; }
+  App._poster = true; setTimeout(() => { try { window.print(); } catch (e) { toast('Printing is blocked here'); } setTimeout(() => { App._poster = false; }, 1500); }, 120);
+}
+
 // ---------- Self-update channel: releases are published to BTormey23/ringcraft/release ----------
 const RELEASE = { owner: 'BTormey23', repo: 'ringcraft', dir: 'release' };
 const verNum = v => parseInt(String(v || '').replace(/\D/g, ''), 10) || 0;
@@ -2495,6 +2576,7 @@ function demoBar() {
   App._wired = true; wire();
   demoBar();
   $('#btnUpdCheck').addEventListener('click', () => checkUpdate(true));
+  $('#shPoster')?.addEventListener('click', () => { $('#modalShare').classList.remove('open'); printPoster(); });
   if (BUILD === 'web' && GH.ok()) setTimeout(() => checkUpdate(false), 2500);
   App.courseId = App.data.courses.slice().sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))[0]?.id || null;
   renderAll();
